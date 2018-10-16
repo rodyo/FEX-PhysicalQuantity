@@ -1,8 +1,8 @@
 classdef Density < PhysicalQuantityInterface
     
     properties (Constant)
-        %                               L M t C T I N ii
-        dimensions = PhysicalDimension([3 1 0 0 0 0 0 0 ]);
+        %                                L M t C T I N ii
+        dimensions = PhysicalDimension([-3 1 0 0 0 0 0 0 ]);
         units      = [] % TODO
     end
     
