@@ -50,7 +50,8 @@ classdef (Abstract) PhysicalQuantityInterface
         % T  : Temperature
         % I  : Luminous intensity
         % N  : amount of Substance
-        % ii : Free counter to resolve unit ambiguities (e.g., both energy and torque are N�m)
+        % ii : Free counter to resolve unit ambiguities 
+        %      (e.g., both energy and torque are N�m)
         dimensions PhysicalDimension
         
         % All supported units of measurement 
@@ -141,19 +142,20 @@ classdef (Abstract) PhysicalQuantityInterface
                     % Remove this special string from the argument list
                     if nargin>=2 && (strcmp(varargin{2}, '[-]') || ...
                             isa(varargin{2}, 'BaseUnitOfMeasurement') ...
-                            && isequal(varargin{2}.system, SystemOfUnits.dimensionless))
+                            && isequal(varargin{2}.system, ... 
+                                       SystemOfUnits.dimensionless))
                         varargin(2) = []; 
                         argc = argc-1;
                     end
 
-                    % Another unit may have been specified; that is an error for a
-                    % Dimensionless quantity.                
+                    % Another unit may have been specified; that is an 
+                    % error for a Dimensionless quantity.                
                     assert(mod(argc+1,2)==0,...
                            [subclass ':incorrect_dimensionless_call'],...
                            'Do not specify a unit of measurement for %s().',...
                            obj.dimensionless);
 
-                    % Add it back in so that all the rest doesn't trip over it
+                    % Add it back in so that the rest doesn't trip over it
                     if ~isa(varargin{1}, obj.dimensionless)
                         varargin = {varargin{1} '[-]' varargin{2:end}};
                         argc = argc+1;
@@ -161,7 +163,8 @@ classdef (Abstract) PhysicalQuantityInterface
 
                 end  
                 
-                % Copy-constructor/cast operator, or initialize zero-valued object
+                % Copy-constructor/cast operator, or 
+                % initialize zero-valued object
                 if argc==1 
                     
                     pq = varargin{1};
@@ -186,7 +189,7 @@ classdef (Abstract) PhysicalQuantityInterface
                 end
 
                 % Normal call
-                % ------------------------------------------------------------------
+                % ---------------------------------------------------------
 
                 % First argument has strange type; try to typecast
                 if ~ismember(class(varargin{1}), {superclass 'double' 'single'})                    
@@ -199,9 +202,9 @@ classdef (Abstract) PhysicalQuantityInterface
                 
                 assert(mod(argc,2)==0,...
                        [subclass ':no_unit_or_unpaired_pvs'],...
-                       'Incorrect argument count; either no unit of measurement ',...
-                       'has been specified, or parameters/values are not ',...
-                       'properly paired.');
+                       'Incorrect argument count; either no unit of ',...
+                       'measurement has been specified, or ',...
+                       'parameters/values are not properly paired.');
                 
                 % Rename arguments for clarity
                 quantity = varargin{1};
@@ -219,7 +222,10 @@ classdef (Abstract) PhysicalQuantityInterface
 
                     obj(amt) = pq();
                     for ii = 1:amt
-                        obj(ii) = pq(quantity(ii), unitstr, varargin{:}); end
+                        obj(ii) = pq(quantity(ii), ...
+                                     unitstr,...
+                                     varargin{:}); 
+                    end
 
                     obj = reshape(obj, size(quantity));
                     return;                 
@@ -235,8 +241,8 @@ classdef (Abstract) PhysicalQuantityInterface
                     else
                         obj = obj.changeUnit(unitstr);
                         
-                        % Assign value, converting it to the base units using the multiplier and 
-                        % user-specified units
+                        % Assign value, converting it to the base units 
+                        % using the multiplier and user-specified units
                         U = DerivedUnitOfMeasurement(obj.current_unit);
                         P = obj.given_powers;
                             
@@ -261,7 +267,8 @@ classdef (Abstract) PhysicalQuantityInterface
 
                     switch lower(parameter)
 
-                        % Available to all PhysicalQuantityInterface subclasses                    
+                        % Available to all PhysicalQuantityInterface 
+                        % subclasses
                         case {'name' 'id'}
                             obj.name = value;
 
@@ -272,8 +279,9 @@ classdef (Abstract) PhysicalQuantityInterface
 
                         case 'dimensions'
                             assert_generic();
-                            assert(isa(value, obj.dimensionsclass) && isscalar(value),...
-                                   [mfilename ':invalid_dimensions'],...
+                            assert(   isa(value, obj.dimensionsclass) ...
+                                   && isscalar(value),...
+                                   [mfilename() ':invalid_dimensions'],...
                                    'Invalid dimensions specified.');
                             obj.intermediate_dimensions = value;
 
@@ -314,8 +322,8 @@ classdef (Abstract) PhysicalQuantityInterface
         function obj = set.display_format(obj, fmt)
             assert(any(strcmp(fmt, {'short', 'long', 'auto'})),...
                    [class(obj) ':unknown_display_format'], [...
-                   'Unsupported display format: ''%s''. Supported formats are ',...
-                   '''auto'', ''short'' and ''long''.'],...
+                   'Unsupported display format: ''%s''. Supported formats ',...
+                   'are ''auto'', ''short'' and ''long''.'],...
                    fmt);
             obj.display_format = fmt;
         end
@@ -325,11 +333,12 @@ classdef (Abstract) PhysicalQuantityInterface
     
     % Operator overloads: basic operators     
     methods (Sealed, Hidden)
-    % STYLE: (Rody Oldenhuis) these are all tiny, extremely similar methods,
-    % that nevertheless need to be wrapped in try/catch to throwAsCaller() and
-    % are best defined here instead of in a large number of virtually identical
-    % files. Therefore, to better inspect their validity, a more compact format
-    % than prescribed by the style guide is used here.
+    % STYLE: (Rody Oldenhuis) these are all tiny, extremely similar 
+    % methods, that nevertheless need to be wrapped in try/catch to 
+    % throwAsCaller() and are best defined here instead of in a large 
+    % number of virtually identical files. Therefore, to better inspect 
+    % their validity, a more compact format than prescribed by the style 
+    % guide is employed here.
         
         % Convert to displayable string       
         disp(obj);
@@ -337,11 +346,9 @@ classdef (Abstract) PhysicalQuantityInterface
         % Basic operators: 
         % - isnan, isfinite
         function yn = isnan(obj)
-            yn = isnan(double(obj));
-        end
+            yn = isnan(double(obj)); end
         function yn = isfinite(obj)
-            yn = isfinite(double(obj));
-        end
+            yn = isfinite(double(obj)); end
         
         % Basic operators: 
         % - comparisons        
@@ -380,6 +387,47 @@ classdef (Abstract) PhysicalQuantityInterface
                 yn = (double(this) >= double(that));
             catch ME, throwAsCaller(ME);
             end
+        end
+        
+        % Basic operators: 
+        % - max/min
+        function [obj, inds] = max(obj, varargin)
+            
+            % TODO: (Rody Oldenhuis)  ...continue this.
+            
+            narginchk(1,3);
+            dim   = 1;
+            mode  = 1;
+            other = [];
+            
+            if nargin==2                
+                other = varargin{1};
+                assert(isa(other,class(obj)),...
+                       obj.ErrId('invalid_argument'),...
+                       'Can''t compute the max() between a %s and a %s.',...
+                       class(obj),class(other));
+                mode = 2;
+            end
+            
+            if nargin==3
+                assert(isempty(other),...
+                       obj.ErrId('invalid_argument'), [...
+                       'Dimension argument is not supported when ',...
+                       'two input arrays are provided.']);
+                % TODO: (Rody Oldenhuis) check integer, positive, etc.                   
+                dim = varargin{2};
+            end
+            
+            
+            switch mode
+                case 1
+                    [~,I] = max(double(obj), [], dim);                    
+                case 2
+                    % ..etc.
+            end
+        end
+        function obj = min(obj, varargin)
+            % TODO: (Rody Oldenhuis) 
         end
         
         % Basic operators: 
@@ -867,6 +915,13 @@ classdef (Abstract) PhysicalQuantityInterface
          multipliers,...
          powers] = convertStringToUnits(obj,...
                                         str);
+                                  
+        % Inverse of the above (save for the arguments)
+        str = convertUnitsToString(obj,...
+                                   value,...
+                                   units,...
+                                   multipliers,...
+                                   exponents);
             
         % Convert a given set of units of measurement, multipliers and powers
         % into a pretty-print displayable string

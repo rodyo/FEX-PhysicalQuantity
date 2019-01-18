@@ -184,8 +184,9 @@ classdef (TestTags = {'UnitTestsForIncorrectUsage'})...
             E = 'PhysicalQuantityInterface:incompatible_types';
             P = tst.pq_constructor(rand, tst.pq_instance.current_unit);
                        
-            if ~any(strcmp(type, {'Length' 'Dimensionless'})) &&...
-                    ~isa(tst.pq_instance, 'Length') && ~isa(tst.pq_instance, 'Dimensionless')                   
+            if    ~any(strcmp(type, {'Length' 'Dimensionless'})) ...
+               && ~isa(tst.pq_instance, 'Length') ...
+               && ~isa(tst.pq_instance, 'Dimensionless')                   
                 
                 % 0-valued object should already fail
                 tst.fatalAssertError(@()tst.pq_instance + L, E);
@@ -198,7 +199,8 @@ classdef (TestTags = {'UnitTestsForIncorrectUsage'})...
                 tst.fatalAssertError(@()L + rand, E);
                 tst.fatalAssertError(@()L - rand, E);
                 
-                % Just to be sure, create not-0-valued object and check again
+                % Just to be sure, create not-0-valued object 
+                % and check again
                 tst.fatalAssertError(@()P + L, E);
                 tst.fatalAssertError(@()P - L, E);
                 tst.fatalAssertError(@()L + P, E);
@@ -228,8 +230,10 @@ classdef (TestTags = {'UnitTestsForIncorrectUsage'})...
             E = 'PhysicalQuantityInterface:incompatible_types';
             P = tst.pq_constructor(rand, tst.pq_instance.current_unit);
                        
-            if ~any(strcmp(type, {'Jerk' 'Dimensionless'})) &&...
-                    ~isa(tst.pq_instance, 'Jerk') && ~isa(tst.pq_instance, 'Dimensionless')
+            if    ~any(strcmp(type, {'Jerk' 'Dimensionless'})) ...
+               && ~isa(tst.pq_instance, 'Jerk') ...
+               && ~isa(tst.pq_instance, 'Dimensionless')
+           
                 tst.fatalAssertError(@()tst.pq_instance + J, E);
                 tst.fatalAssertError(@()tst.pq_instance - J, E);
                 tst.fatalAssertError(@()J + tst.pq_instance, E);

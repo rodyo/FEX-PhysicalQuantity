@@ -152,8 +152,3 @@ go incorrectly. If you observe something odd, please give me a heads up.
 Preferably, raise issue on GitHub :) Otherwise, plain ol' email will do: 
 
 oldenhuis@gmail.com
-
-
-
-
-

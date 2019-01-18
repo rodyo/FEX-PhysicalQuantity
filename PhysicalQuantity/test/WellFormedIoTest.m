@@ -1,9 +1,9 @@
 classdef (TestTags = {'UnittestsForSuperclass'})...
          WellFormedIoTest < matlab.unittest.TestCase
     
-    %% Setup & teardown
+    %% Setup & teardown ===================================================
      
-    % Properties ---------------------------------------------------------------
+    % Properties ----------------------------------------------------------
     
     properties 
         pq_constructor
@@ -16,82 +16,10 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
     end
     
     properties (MethodSetupParameter)
-        type = {'Dimensionless'
-                %{
-                %}
-                'Length'
-                'Distance'
-                'Displacement'
-                %{
-                %}
-                'Mass'
-                %{
-                %}
-                'Time'
-                'Duration'
-                %{
-                %}
-                'Current'
-                %{
-                %}
-                'Temperature'
-                %{
-                %}
-                'LuminousIntensity'
-                %{
-                %}                
-                'AmountOfSubstance'
-                %{
-                Derived units
-                %}
-                'Angle'
-                'PlanarAngle'
-                'SolidAngle'
-                %{
-                %}
-                'Area'
-                'Volume'
-                'Density'
-                'Viscocity'
-                'Force'
-                'Torque'
-                'Pressure'
-                'Speed'
-                'Acceleration'
-                'Jerk'
-                'Snap'
-                'Crackle'
-                'Pop'
-                'AngularAcceleration'
-                'AngularSpeed'
-                %{
-                %}
-                'Momentum'
-                'LinearMomentum'
-                'AngularMomentum'
-                'SpecificAngularMomentum'
-                'MomentOfInertia'
-                'Energy'
-                'SpecificEnergy'
-                %{
-                %}
-                'Frequency'
-                'Wavenumber'
-                %{
-                %}
-                'Potential'
-                'Power'
-                'Resistance'
-                'Capacitance'
-                'Charge'
-                'Conductance'
-                'Inductance'
-                'MagneticFlux'
-                'MagneticFluxDensity'
-                };
+        type = set_types()
     end
     
-    % Methods ------------------------------------------------------------------
+    % Methods -------------------------------------------------------------
         
     methods (TestClassSetup) % (before ALL tests)
         function setPaths(~)            
@@ -114,7 +42,7 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
     end
     
     
-    %% Test cases: basic usage
+    %% Test cases: basic usage ============================================
    
     methods (Test, TestTags = {'BasicSuperclassBehavior'})
         
@@ -241,9 +169,20 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
         
     end
     
-    %% Test cases: object arrays
+    %% Test cases: object arrays ==========================================
     
     methods (Test, TestTags = {'ObjectArrays'})
     end
         
 end
+
+
+% Get all types to test 
+function types = set_types()    
+    % All M-files in '..' define a type, EXCEPT Contents.m    
+	fpth = fullfile(fileparts(mfilename('fullpath')), '..');        
+    qtys = dir(fullfile(fpth,'*.m'));
+    [~,types] = cellfun(@fileparts,{qtys.name}','UniformOutput', false);
+    types = types(~strcmp(types,'Contents'));    
+end
+    

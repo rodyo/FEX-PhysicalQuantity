@@ -3,11 +3,8 @@ classdef (TestTags = {'UnittestsForAngle'})...
     
     %% Setup & teardown
         
-    % Properties ---------------------------------------------------------------
-    
-    properties         
-    end
-    
+    % Properties ----------------------------------------------------------
+       
     properties  (TestParameter)
         
         fcn = {@acos, @asin, @atan,...
@@ -22,21 +19,26 @@ classdef (TestTags = {'UnittestsForAngle'})...
     properties (MethodSetupParameter)                
     end
     
-    % Methods ------------------------------------------------------------------
+    % Methods -------------------------------------------------------------
     
-    methods (TestClassSetup) % (before ALL tests)
+    % (before ALL tests)
+    methods (TestClassSetup) 
         function setPaths(~)
-            addpath(genpath( fullfile(fileparts(mfilename('fullpath')),'..') ));
+            thispth = fullfile(fileparts(mfilename('fullpath')),'..');
+            addpath(genpath( thispth ));
         end
     end
     
-    methods (TestMethodSetup) % (before EVERY test)           
+    % (before EVERY test)           
+    methods (TestMethodSetup) 
     end
     
-    methods(TestClassTeardown) % (after ALL tests)       
-    end    
+    % (after ALL tests)       
+    methods(TestClassTeardown) 
+    end  
     
-    methods(TestMethodTeardown) % (after EVERY test)       
+     % (after EVERY test)           
+    methods(TestMethodTeardown)
     end
     
     
@@ -60,15 +62,14 @@ classdef (TestTags = {'UnittestsForAngle'})...
             A = Angle(m, grad);
             tst.fatalAssertLessThan( abs(double(A) - m * pi/200), eps);
         end
-        
-        
     end
     
     
     methods (Test,...
              TestTags = {'AngleGenerator'})
          
-         % Do all the inverse trig functions create the correct angles, regardless of the unit? 
+         % Do all the inverse trig functions create the correct angles, 
+         % regardless of the unit? 
          function testInverseTrigGenerators(tst, fcn)
              
              L = Length(3, 'm');             
@@ -112,15 +113,14 @@ classdef (TestTags = {'UnittestsForAngle'})...
                           
          end
          
-         % Does Angle() fail in the right way when attempting to construct an angle from a
-         % dimensioned quantity?
+         % Does Angle() fail in the right way when attempting to construct 
+         % an angle from a dimensioned quantity?
          function testAngleFromIncorrectPq(tst, deg)
              L = Length(randn,'m');
-             tst.fatalAssertError(@()Angle(L,deg), 'Angle:incompatible_dimensions');             
-             
+             tst.fatalAssertError(@()Angle(L,deg),...
+                                  'Angle:incompatible_dimensions');             
          end
-             
-        
+         
     end
     
     methods (Test,...
@@ -139,7 +139,6 @@ classdef (TestTags = {'UnittestsForAngle'})...
              
              B = Angle(1, deg);              
              tst.fatalAssertEqual(get_cmd_output(B), 'ang=1degree');
-             
              
          end
          
