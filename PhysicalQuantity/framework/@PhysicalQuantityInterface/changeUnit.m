@@ -1,38 +1,39 @@
+% Change units of measurement for this PhysicalQuantity.
+%
+% Example: 
+%
+% L = Length(2, 'meters');   
+%
+% L = L.changeUnit('inches')  % L now uses units 'inches'. 
+%
+% P = L.changeUnit('inches')  % L still uses 'meters', while P uses
+%                               'inches'. Obviously, the actual length 
+%                               represented is identical for both.        
+%
+% This method takes a second argument, which allows overriding the 
+% SI-multiplier when the quantity is displayed. Example: 
+%
+% >> L = Length(5, 'AU')
+% L = 
+%      5 astronomical units
+%
+% >> L.changeUnit('km')
+% ans = 
+%
+%     747.9894 Gm    % <- units are 'm'; the SI multiplier is 
+%                         automatically adjusted to fit the quantity's 
+%                         value. Effectively, the 'k' is ignored.
+%
+% >> L.changeUnit('km', true)
+% ans = 
+%
+%     7.4799e+08 km  % <- SI multiplier fixed to 'k' 
+%
+% See also subsref, listUnits, resetUnit.  
 function obj = changeUnit(obj,...
                           desired_unit,...
                           override_automatic_multiplier)
-    % Change units of measurement for this PhysicalQuantity.
-    %
-    % Example: 
-    %
-    % L = Length(2, 'meters');   
-    %
-    % L = L.changeUnit('inches')  % L now uses units 'inches'. 
-    %
-    % P = L.changeUnit('inches')  % L still uses 'meters', while P uses
-    %                               'inches'. Obviously, the actual length 
-    %                               represented is identical for both.        
-    %
-    % This method takes a second argument, which allows overriding the 
-    % SI-multiplier when the quantity is displayed. Example: 
-    %
-    % >> L = Length(5, 'AU')
-    % L = 
-    %      5 astronomical units
-    %
-    % >> L.changeUnit('km')
-    % ans = 
-    %
-    %     747.9894 Gm    % <- units are 'm'; the SI multiplier is 
-    %                         automatically adjusted to fit the quantity's 
-    %                         value. Effectively, the 'k' is ignored.
-    %
-    % >> L.changeUnit('km', true)
-    % ans = 
-    %
-    %     7.4799e+08 km  % <- SI multiplier fixed to 'k' 
-    %
-    % See also subsref, listUnits, resetUnit.            
+              
     try
         
         % Rename for clarity

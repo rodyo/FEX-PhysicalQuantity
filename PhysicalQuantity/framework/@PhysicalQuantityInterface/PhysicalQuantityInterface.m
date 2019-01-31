@@ -332,7 +332,9 @@ classdef (Abstract) PhysicalQuantityInterface
     
     
     % Operator overloads: basic operators     
-    methods (Sealed, Hidden)
+    methods (Sealed,...
+             Hidden)
+        
     % STYLE: (Rody Oldenhuis) these are all tiny, extremely similar 
     % methods, that nevertheless need to be wrapped in try/catch to 
     % throwAsCaller() and are best defined here instead of in a large 
@@ -724,7 +726,8 @@ classdef (Abstract) PhysicalQuantityInterface
     end
     
     % Operator overloads: advanced operators
-    methods (Sealed, Hidden)
+    methods (Sealed,...
+             Hidden)
         
         % Advanced operator:
         % - subsref
@@ -744,6 +747,10 @@ classdef (Abstract) PhysicalQuantityInterface
         % Reset the currently used unit of measurement to the unit specified at
         % object construction 
         obj = resetUnit(obj);
+        
+        % Get the value and unit of measurement, as disp() would show it
+        [converted_value,...
+         unit_str] = getDisplayedUnit(obj)
                 
     end
     
