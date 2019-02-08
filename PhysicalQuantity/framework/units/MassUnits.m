@@ -22,6 +22,7 @@ function U = get_mass_units()
         retarded  ''         ''     'short ton'  907.18474e3
         crazy     ''         ''     'long ton'   1016.047e3
         crazy     ''         'lb'   'pound'      0.45359237e3
+        retarded  ''         ''     'slug'       14593.90
         crazy     ''         'st'   'stone'      6.35029318e3
         crazy     char(8485) 'oz'   'ounce'      28.349523125
         crazy     ''         'gr'   'grain'      64.79891e-3

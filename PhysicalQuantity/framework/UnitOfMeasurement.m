@@ -1,8 +1,8 @@
  classdef UnitOfMeasurement 
 
     %% Properties
-    
-    properties (SetAccess = immutable)        
+        
+    properties (SetAccess = immutable)
         
         dimensions = PhysicalDimension() 
     

@@ -1,4 +1,4 @@
-classdef (Abstract) UnitOfMeasurementType
+ classdef (Abstract) UnitOfMeasurementType
     
     properties (Abstract, Constant)
         dimensions  %(1,1) PhysicalDimension    
@@ -27,7 +27,8 @@ classdef (Abstract) UnitOfMeasurementType
     methods        
         function units = getAllUnits(obj)            
             % NOTE: (Rody Oldenhuis) concatenation order is important; a
-            % BaseUnit can be cast to a DerivedUnit, but not the other way round
+            % BaseUnit can be cast to a DerivedUnit, but not 
+            % the other way round
             units = [obj.other_units(:); obj.base_unit];            
         end
     end

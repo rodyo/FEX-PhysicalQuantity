@@ -16,7 +16,7 @@ function disp(obj)
             dispstr{ii} = regexprep(dispstr{ii}, newline(), '');        
         else
             [converted,...
-             dispname] = obj.getDisplayedUnit(); %#ok<ASGLU> (used in evalc)
+             dispname] = O.getDisplayedUnit(); %#ok<ASGLU> (used in evalc)
 
             % NOTE: (Rody Oldenhuis) evalc() is the only way in MATLAB to
             % capture arbitrary command line output in a variabe. It is used

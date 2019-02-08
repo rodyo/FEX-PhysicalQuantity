@@ -1,6 +1,13 @@
 %{
 
+self-consistency test to check if no 2 units have the same dimensions
+(Becquerel (s^-1) and Hertz (s^-1) describe different things and should
+have that free counter different) 
+
 New PhysicalUnits to develop:
+
+https://en.wikipedia.org/wiki/List_of_physical_quantities
+
 
 Epoch % MATLAB can do a lot these days; look that up
 Duration % thin wrapper around MATLAB's own duration()
@@ -51,7 +58,7 @@ classdef (Abstract) PhysicalQuantityInterface
         % I  : Luminous intensity
         % N  : amount of Substance
         % ii : Free counter to resolve unit ambiguities 
-        %      (e.g., both energy and torque are N�m)
+        %      (e.g., both energy and torque are N*m)
         dimensions PhysicalDimension
         
         % All supported units of measurement 
@@ -84,10 +91,10 @@ classdef (Abstract) PhysicalQuantityInterface
         genericclass    = 'PhysicalQuantity'
         unitclass       = 'UnitOfMeasurement'
         dimensionless   = 'Dimensionless'
-        dimensionsclass = 'PhysicalDimension' % TODO: (Rody Oldenhuis) rename to "-s"
+        dimensionsclass = 'PhysicalDimension'
     end
         
-    % Special, dimensions field that's settable only by the genericclass
+    % Special dimensions field that's settable only by the genericclass
     properties (Hidden,...
                 GetAccess = protected,...
                 SetAccess = ?PhysicalQuantity)
@@ -96,7 +103,7 @@ classdef (Abstract) PhysicalQuantityInterface
     
     
     %% Methods
-    
+       
     % Class basics
     methods 
         
@@ -128,7 +135,7 @@ classdef (Abstract) PhysicalQuantityInterface
                 end
                 
                 % Special cases
-                % ------------------------------------------------------------------
+                % ---------------------------------------------------------
 
                 % Default constructor: use base unit and a value of 0
                 if argc==0
@@ -216,17 +223,30 @@ classdef (Abstract) PhysicalQuantityInterface
                 if amt > 1 
 
                     % NOTE: (Rody Oldenhuis) the only other way is with package: 
-                    % https://stackoverflow.com/questions/7102828/instantiate-class-from-name-in-matlab
+                    % https://stackoverflow.com/questions/7102828/
                     % and believe me, you don't want to do that. 
                     pq = str2func(subclass);
 
-                    obj(amt) = pq();
-                    for ii = 1:amt
-                        obj(ii) = pq(quantity(ii), ...
-                                     unitstr,...
-                                     varargin{:}); 
-                    end
-
+                    % NOTE: (Rody Oldenhuis) fully construct only the first 
+                    % and then copy all copyable properties over to all the
+                    % others gives staggeringly better performance than
+                    % constructing each one individually in a loop: 
+                    obj(1) = pq(quantity(1), unitstr, varargin{:});
+                    factor = obj(1).value / quantity(1);
+                    
+                    obj(amt) = pq();                     
+                    for ii = 2:amt
+                        obj(ii).value = quantity(ii) * factor; end
+                    
+                    [obj.name]             = deal(obj(1).name);
+                    [obj.display_format]   = deal(obj(1).display_format);
+                    
+                    [obj.current_unit]       = deal(obj(1).current_unit);
+                    
+                    [obj.given_unit]       = deal(obj(1).given_unit);
+                    [obj.given_multiplier] = deal(obj(1).given_multiplier);
+                    [obj.given_powers]     = deal(obj(1).given_powers);
+                    
                     obj = reshape(obj, size(quantity));
                     return;                 
                 end
@@ -295,7 +315,7 @@ classdef (Abstract) PhysicalQuantityInterface
                 end
                 
             catch ME
-                throwAsCaller(ME);
+                obj.throwWithoutAppStack(ME);
             end
 
             % Assertions for the pvpair parsing above
@@ -337,7 +357,7 @@ classdef (Abstract) PhysicalQuantityInterface
         
     % STYLE: (Rody Oldenhuis) these are all tiny, extremely similar 
     % methods, that nevertheless need to be wrapped in try/catch to 
-    % throwAsCaller() and are best defined here instead of in a large 
+    %  () and are best defined here instead of in a large 
     % number of virtually identical files. Therefore, to better inspect 
     % their validity, a more compact format than prescribed by the style 
     % guide is employed here.
@@ -357,46 +377,56 @@ classdef (Abstract) PhysicalQuantityInterface
         function yn = eq(this, that)
             try assert_both_are_equal_type(this, that, 'compare','to');
                 yn = (double(this) == double(that));
-            catch ME, throwAsCaller(ME);
+            catch ME, try   this.throwWithoutAppStack(ME); 
+                      catch,that.throwWithoutAppStack(ME); end
             end
         end
         function yn = ne(this, that)
-            try assert_both_are_equal_type(this, that, 'compare','to');
+            try assert_both_are_equal_type(this, that, 'compare','to'); %#ok<ALIGN>
                 yn = (double(this) ~= double(that));
-            catch ME, throwAsCaller(ME);
-            end
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end,end
         end
         function yn = lt(this, that)
-            try assert_both_are_equal_type(this, that, 'compare','to');
+            try assert_both_are_equal_type(this, that, 'compare','to');%#ok<ALIGN>
                 yn = (double(this) < double(that));
-            catch ME, throwAsCaller(ME);
-            end
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end,end
         end
         function yn = le(this, that)
-            try assert_both_are_equal_type(this, that, 'compare','to');
+            try assert_both_are_equal_type(this, that, 'compare','to');%#ok<ALIGN>
                 yn = (double(this) <= double(that));
-            catch ME, throwAsCaller(ME);
-            end
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end,end
         end
         function yn = gt(this, that)
-            try assert_both_are_equal_type(this, that, 'compare','to');
+            try assert_both_are_equal_type(this, that, 'compare','to');%#ok<ALIGN>
                 yn = (double(this) > double(that));
-            catch ME, throwAsCaller(ME);
-            end
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end,end
         end
         function yn = ge(this, that)
-            try assert_both_are_equal_type(this, that, 'compare','to');
+            try assert_both_are_equal_type(this, that, 'compare','to');%#ok<ALIGN>
                 yn = (double(this) >= double(that));
-            catch ME, throwAsCaller(ME);
-            end
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end,end
         end
-        
+                
         % Basic operators: 
         % - max/min
         function [obj, inds] = max(obj, varargin)
             
-            % TODO: (Rody Oldenhuis)  ...continue this.
+            % TODO: (Rody Oldenhuis)  ...continue this. The following basic
+            % approach works for max(Q) and max(Q,[],dim) calls, but fails
+            % due to infinite recursion for max(Q,Q) calls...
+            D = double(obj);            
+            [M, inds] = max(D, varargin{:});            
+            obj = reshape(obj(bsxfun(@eq, M,D)), size(inds));
+            return; 
             
+            
+            % TODO: (Rody Oldenhuis) ...I guess we have to parse the
+            % arguments ourselves... 
             narginchk(1,3);
             dim   = 1;
             mode  = 1;
@@ -436,26 +466,22 @@ classdef (Abstract) PhysicalQuantityInterface
         % - abs, sign
         function obj = abs(obj)
             try for ii = 1:numel(obj), obj(ii).value = abs(obj(ii).value); end
-            catch ME, throwAsCaller(ME);
-            end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
         function s = sign(obj)
             try s = sign(double(obj));
-            catch ME, throwAsCaller(ME);
-            end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
                 
         % Basic operators: 
         % - unary plus/unary minus
         function obj = uplus(obj)
             try for ii = 1:numel(obj), obj(ii).value = +obj(ii).value; end
-            catch ME, throwAsCaller(ME);
-            end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
         function obj = uminus(obj)
             try for ii = 1:numel(obj), obj(ii).value = -obj(ii).value; end
-            catch ME, throwAsCaller(ME);
-            end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
         
         % Basic operators: 
@@ -493,11 +519,14 @@ classdef (Abstract) PhysicalQuantityInterface
                 end
                 
             catch ME
-                throwAsCaller(ME);
+                try    this.throwWithoutAppStack(ME); 
+                catch, that.throwWithoutAppStack(ME); end
             end            
         end
         function new = minus(this, that)
-            new = plus(this, -that, 1);
+            try new = plus(this, -that, 1); %#ok<ALIGN>
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end, end
         end
                 
         % Basic operators:         
@@ -506,9 +535,9 @@ classdef (Abstract) PhysicalQuantityInterface
             % TODO: (Rody Oldenhuis) this is potentially complex, because
             % matrix/matrix operations should also take into account units being
             % multiplied...for now, just make both equal:
-            try new = times(this,that);
-            catch ME, throwAsCaller(ME); 
-            end
+            try new = times(this,that); %#ok<ALIGN>
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end, end
         end         
         function new = times(this, that)
                         
@@ -557,7 +586,8 @@ classdef (Abstract) PhysicalQuantityInterface
                 end
 
             catch ME
-                throwAsCaller(ME);
+                try    this.throwWithoutAppStack(ME); 
+                catch, that.throwWithoutAppStack(ME); end
             end
             
         end
@@ -566,18 +596,21 @@ classdef (Abstract) PhysicalQuantityInterface
             % TODO: (Rody Oldenhuis) this is potentially complex, because
             % matrix operations should also take into account units being
             % multiplied/divided...for now, just make both equal:
-            try new = this./that;
-            catch ME, throwAsCaller(ME); end
+            try new = this./that; %#ok<ALIGN>
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end, end
         end
         function new = ldivide(this, that)
             % TODO: (Rody Oldenhuis) (same comment as in mldivide)
-            try new = this./that;
-            catch ME, throwAsCaller(ME); end
+            try new = this./that; %#ok<ALIGN>
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end, end
         end
         function new = mrdivide(this, that)
             % TODO: (Rody Oldenhuis) (same comment as in mldivide)
-            try new = this./that;
-            catch ME, throwAsCaller(ME); end
+            try new = this./that; %#ok<ALIGN>
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end, end
         end
         function new = rdivide(this, that)
             
@@ -624,7 +657,8 @@ classdef (Abstract) PhysicalQuantityInterface
                                        'Dimensions', this_dims - that_dims);
                                    
             catch ME
-                throwAsCaller(ME);
+                try    this.throwWithoutAppStack(ME); 
+                catch, that.throwWithoutAppStack(ME); end
             end
             
         end
@@ -633,8 +667,9 @@ classdef (Abstract) PhysicalQuantityInterface
         % - power/nthroot        
         function new = mpower(this, that)
             % TODO: (Rody Oldenhuis) 
-            try new = this.^that;
-            catch ME, throwAsCaller(ME); end
+            try new = this.^that; %#ok<ALIGN>
+            catch ME, try    this.throwWithoutAppStack(ME); 
+                      catch, that.throwWithoutAppStack(ME); end, end
         end
         function new = power(this, that) %#ok<INUSD,STOUT>
             % TODO: (Rody Oldenhuis) 
@@ -646,7 +681,7 @@ classdef (Abstract) PhysicalQuantityInterface
         function new = sqrtm(obj)
             % TODO: (Rody Oldenhuis) 
             try new = sqrt(obj);
-            catch ME, throwAsCaller(ME); end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
         function new = sqrt(obj) %#ok<STOUT,MANU>
             % TODO: (Rody Oldenhuis) 
@@ -660,7 +695,7 @@ classdef (Abstract) PhysicalQuantityInterface
         function new = expm(obj)
             % TODO: (Rody Oldenhuis) 
             try new = exp(obj);
-            catch ME, throwAsCaller(ME); end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
         function new = exp(obj) %#ok<STOUT,MANU>
             % TODO: (Rody Oldenhuis) ...how to deal with this? 
@@ -673,7 +708,7 @@ classdef (Abstract) PhysicalQuantityInterface
         function new = logm(obj)
             % TODO: (Rody Oldenhuis) 
             try new = log(obj);
-            catch ME, throwAsCaller(ME); end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
         function new = log(obj) %#ok<STOUT,MANU>
             % TODO: (Rody Oldenhuis) ...how to deal with this? 
@@ -685,23 +720,23 @@ classdef (Abstract) PhysicalQuantityInterface
         function new = log10(obj)
             % TODO: (Rody Oldenhuis) 
             try new = log(obj);
-            catch ME, throwAsCaller(ME); end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
         function new = log2(obj)
             % TODO: (Rody Oldenhuis) 
             try new = log(obj);
-            catch ME, throwAsCaller(ME); end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
                 
         % Basic operators:         
         % - typecast to double/single
         function val = double(obj)
             try val = reshape([obj.value], size(obj));
-            catch ME, throwAsCaller(ME); end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end        
         function val = single(obj)
             try val = reshape(single([obj.value]), size(obj));
-            catch ME, throwAsCaller(ME); end
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
         
         % Basic operations
@@ -735,11 +770,11 @@ classdef (Abstract) PhysicalQuantityInterface
                 
     end
     
-    % Visible, public methods 
+    % Visible, public methods    
     methods
         
         % List all supported units of measurement 
-        varargout = listUnits(obj);
+        varargout = listUnits(obj);        
                 
         % Change the unit of mesurement 
         obj = changeUnit(obj, desired_unit, use_override);
@@ -763,152 +798,128 @@ classdef (Abstract) PhysicalQuantityInterface
         % them concise.
         
         % Sin,cos,tan
-        function val = sin(obj)
-            val = NaN;
+        function val = sin(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('sine'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
-        function val = cos(obj)
-            val = NaN;
+        function val = cos(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('cosine'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
-        function val = tan(obj)
-            val = NaN;
+        function val = tan(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('tangent'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
         
         % secant,cosecant,cotangent        
-        function val = csc(obj)
-            val = NaN;
+        function val = csc(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('cosecant'); 
-            catch ME, throwAsCaller(ME); end              
+            catch ME, obj.throwWithoutAppStack(ME); end              
         end
-        function val = sec(obj)
-            val = NaN;
+        function val = sec(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('secant'); 
-            catch ME, throwAsCaller(ME);  end              
+            catch ME, obj.throwWithoutAppStack(ME);  end              
         end
-        function val = cot(obj)
-            val = NaN;
+        function val = cot(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('cotangent'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
         
         % Inverse trig functions are only valid on Dimensionlesses. These are 
         % overloaded in both PhysicalQuantity() (to allow things like
         % asin(Length/Length), resulting in an Angle()), and in Angle() itself
         % (to allow things like Angle.asin(0.3, 'deg');).
-        function val = asin(obj)
-             val = NaN;
+        function val = asin(obj) %#ok<STOUT>
              try obj.forbidTrigfcn('arcsine'); 
-             catch ME, throwAsCaller(ME); end      
+             catch ME, obj.throwWithoutAppStack(ME); end      
         end
-        function val = acos(obj)
-            val = NaN;
+        function val = acos(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('arccosine'); 
-            catch ME, throwAsCaller(ME); end 
+            catch ME, obj.throwWithoutAppStack(ME); end 
         end
-        function val = atan(obj)
-            val = NaN;
+        function val = atan(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('arctangent'); 
-            catch ME, throwAsCaller(ME); end   
+            catch ME, obj.throwWithoutAppStack(ME); end   
         end
         % NOTE: (Rody Oldenhuis) this is an exception 
         function val = atan2(obj,varargin)
             try val = Angle.atan2(obj,varargin{:});
-            catch ME, throwAsCaller(ME); end   
+            catch ME, obj.throwWithoutAppStack(ME); end   
         end
         
-        function val = acsc(obj)
-            val = NaN;
+        function val = acsc(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('arccosecant'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
-        function val = asec(obj)
-            val = NaN;
+        function val = asec(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('arcsecant'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
-        function val = acot(obj)
-            val = NaN;
+        function val = acot(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('arccotangent'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
         
         % TODO: (Rody Oldenhuis) https://en.wikipedia.org/wiki/Hyperbolic_angle
         % implement a HyperbolicAngle() class
-        
-        
+                
         % Same for the hyperbolic analogs
         
         % Sinh,cosh,tanh
-        function val = sinh(obj)
-            val = NaN;
+        function val = sinh(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('hyperbolic sine'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
-        function val = cosh(obj)
-            val = NaN;
+        function val = cosh(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('hyperbolic cosine'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
-        function val = tanh(obj)
-            val = NaN;
+        function val = tanh(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('hyperbolic tangent'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
         
         % sech, csch, tanh        
-        function val = csch(obj)
-            val = NaN;
+        function val = csch(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('hyperbolic cosecant'); 
-            catch ME, throwAsCaller(ME); end              
+            catch ME, obj.throwWithoutAppStack(ME); end              
         end
-        function val = sech(obj)
-            val = NaN;
+        function val = sech(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('hyperbolic secant'); 
-            catch ME, throwAsCaller(ME);  end              
+            catch ME, obj.throwWithoutAppStack(ME);  end              
         end
         function val = coth(obj)
             val = NaN;
             try obj.forbidTrigfcn('hyperbolic cotangent'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
         
         % asinh, acos, atanh
-        function val = asinh(obj)
-            val = NaN;
+        function val = asinh(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('inverse hyperbolic sine'); 
-            catch ME, throwAsCaller(ME); end            
+            catch ME, obj.throwWithoutAppStack(ME); end            
         end
-        function val = acosh(obj)
-            val = NaN;
+        function val = acosh(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('inverse hyperbolic cosine'); 
-            catch ME, throwAsCaller(ME); end 
+            catch ME, obj.throwWithoutAppStack(ME); end 
         end
-        function val = atanh(obj)
-            val = NaN;
+        function val = atanh(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('inverse hyperbolic tangent'); 
-            catch ME, throwAsCaller(ME); end   
+            catch ME, obj.throwWithoutAppStack(ME); end   
         end
                 
         % acsch, asech, acoth
-        function val = acsch(obj)
-            val = NaN;
+        function val = acsch(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('inverse hyperbolic cosecant'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
-        function val = asech(obj)
-            val = NaN;
+        function val = asech(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('inverse hyperbolic secant'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
-        function val = acoth(obj)
-            val = NaN;
+        function val = acoth(obj) %#ok<STOUT>
             try obj.forbidTrigfcn('inverse hyperbolic cotangent'); 
-            catch ME, throwAsCaller(ME); end  
+            catch ME, obj.throwWithoutAppStack(ME); end  
         end
                 
     end
@@ -938,6 +949,62 @@ classdef (Abstract) PhysicalQuantityInterface
                             powers);
                         
     end
+    
+    % PhysicalQuantity == root level app    
+    methods (Access = protected)
+        
+        % ThrowWithoutAppStack
+        %
+        % This is something akin to throwAsCaller(). However, 
+        % throwAsCaller() removes EVERYTHING in the stack, whereas this 
+        % method preserves all entries in the stack that are NOT part of 
+        % the root-level utility. 
+        %
+        % Note that this method has an optional "override" flag, allowing
+        % you to debug root-levels a bit more easily during their
+        % construction.
+        function throwWithoutAppStack(obj, ME, override)
+            
+            % NO ASSERTIONS
+            if nargin < 3
+                override = false; end
+            
+            ds = dbstack(1, '-completenames');
+            if override                
+                warning(obj(1).WarnId('still_marked'), [...
+                        'NOTE: call-site on line %d of root-level app ',...
+                        '''%s'' still has a remnant debug marker.'],...
+                        ds(1).line, ds(1).name);
+                throw(ME);                
+            end
+            
+            old_stack = ME.stack;
+            pth       = fileparts(ds(1).file);
+                        
+            keepers   = ~strncmp({old_stack.file}, pth,numel(pth));
+            new_stack = old_stack(keepers);
+            
+            new_ME = struct('identifier', ME.identifier,...
+                            'message'   , ME.message,...
+                            'stack'     , new_stack);
+            rethrow(new_ME);
+            
+        end        
+        
+    end
+    
+    % Quantity factories
+    methods (Static)
+        
+        % TODO: (Rody Oldenhuis) ...I guess every class has to override
+        % this...there is no way to detect which class is calling the
+        % inherited static method
+        function R = rand(varargin)    
+            mfilename('class')
+            R = Length(builtin('rand', varargin{:}), 'm');
+        end
+        
+    end
         
     % Internal functions 
     methods (Access = private)
@@ -956,7 +1023,7 @@ classdef (Abstract) PhysicalQuantityInterface
         end 
 
     end 
-    
+        
     methods (Static, ...
              Hidden,...
              Access = protected)

@@ -10,7 +10,7 @@ classdef Force < PhysicalQuantityInterface
     % than that, this whole methods block can be safely removed.
     methods
         function obj = Force(varargin)
-            obj = obj@PhysicalQuantityInterface(varargin{:});
+            obj@PhysicalQuantityInterface(varargin{:});
         end        
     end    
     
