@@ -11,49 +11,59 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
         pq_type 
     end
     
-    properties (TestParameter)        
-        disp_fmt = {'auto' 'long' 'short'}        
+    properties (TestParameter)                 
+        test_dir = {fullfile(fileparts(mfilename('fullpath')),'..')};        
+        disp_fmt = {'auto' 'long' 'short'}
     end
     
     properties (MethodSetupParameter)
-        type = set_types()
+        qty = all_quantities()
     end
     
     % Methods -------------------------------------------------------------
         
-    methods (TestClassSetup) % (before ALL tests)
-        function setPaths(~)            
-            addpath(genpath( fullfile(fileparts(mfilename('fullpath')),'..') ));
-        end
+    % (before ALL tests)
+    methods (TestClassSetup) 
+        function applyFixtures(tst)
+            
+            % Make sure current folder is set to test_dir
+            cfix = @matlab.unittest.fixtures.CurrentFolderFixture;
+            cfix = cfix(tst.test_dir{1});            
+            tst.applyFixture(cfix);
+            
+            % Make sure all thr right stuff is on the MATLAB search path
+            pfix = @matlab.unittest.fixtures.PathFixture;
+            pfix = pfix(tst.test_dir{1}, 'IncludeSubfolders', true);            
+            tst.applyFixture(pfix);
+            
+        end        
     end
     
-    methods (TestMethodSetup) % (before EVERY test)   
-        function setConstructor(tst, type)
-            tst.pq_type        = type;
-            tst.pq_constructor = str2func(type);
+    % (before EVERY test)       
+    methods (TestMethodSetup)
+        % Parameterize all tests via the TestMethodSetup:
+        function setConstructor(tst, qty)
+            tst.pq_type        = qty;
+            tst.pq_constructor = str2func(qty);
             tst.pq_instance    = tst.pq_constructor();
         end
-    end
-    
-    methods(TestClassTeardown) % (after ALL tests)       
-    end    
-    
-    methods(TestMethodTeardown) % (after EVERY test)       
     end
     
     
     %% Test cases: basic usage ============================================
    
-    methods (Test, TestTags = {'BasicSuperclassBehavior'})
+    methods (Test,...
+             TestTags = {'BasicSuperclassBehavior'})
         
         % Do we get an error when constructing with the wrong units?
-        function testWrongConstruction(tst)
+        function testWrongUnits(tst)
+            C = @()tst.pq_constructor(rand, 'km^2/C*mol');
             if ~any(strcmp(tst.pq_type, {'Dimensionless'}))
-                E = [tst.pq_type ':invalid_unit'];
-                tst.fatalAssertError(@() tst.pq_constructor(rand, 'km^2/C*mol'), E);                
+                E = [tst.pq_type ':invalid_unit'];                
+                tst.fatalAssertError(C, E);                
             else
                 E = 'Dimensionless:incorrect_dimensionless_call';
-                tst.fatalAssertError(@() tst.pq_constructor(rand, 'km^2/C*mol'), E);
+                tst.fatalAssertError(C, E);
             end
         end
         
@@ -137,11 +147,15 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
         % Can we set the name upon construction? 
         function testName(tst)
             
-            dummyname = char( randi([32 127], 1, 100) );            
-            tst.fatalAssertWarningFree(@()tst.pq_constructor(rand,...
-                                                             tst.pq_instance.current_unit,...
-                                                             'Name', dummyname));
-                                                         
+            dummyname = char( randi([32 127], 1, 100) );
+            
+            % Construct with name gives no warnings:
+            C = @()tst.pq_constructor(rand,...
+                                      tst.pq_instance.current_unit,...
+                                      'Name', dummyname);
+            tst.fatalAssertWarningFree(C);
+               
+            % Construct with name indeed sets the correct name:
             P = tst.pq_constructor(rand, tst.pq_instance.current_unit,...
                                    'Name', dummyname);
             tst.fatalAssertEqual(P.name, dummyname);
@@ -156,11 +170,14 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
         
         % Can we set the display format upon construction? 
         function testDisplayFormat(tst, disp_fmt)
-                        
-            tst.fatalAssertWarningFree(@()tst.pq_constructor(rand,...
-                                                             tst.pq_instance.current_unit,...
-                                                             'display_format', disp_fmt));
-                                                         
+               
+            % Setting display format does not produce warning
+            C = @()tst.pq_constructor(rand,...
+                                      tst.pq_instance.current_unit,...
+                                      'display_format', disp_fmt);
+            tst.fatalAssertWarningFree(C);
+             
+            % And it indeed sets the format as expected:
             P = tst.pq_constructor(rand, tst.pq_instance.current_unit,...
                                    'display_format', disp_fmt);
             tst.fatalAssertEqual(P.display_format, disp_fmt);
@@ -171,18 +188,21 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
     
     %% Test cases: object arrays ==========================================
     
-    methods (Test, TestTags = {'ObjectArrays'})
+    methods (Test,...
+             TestTags = {'ObjectArrays'})
+         
+         % TODO: (Rody Oldenhuis) 
+         
     end
         
 end
 
-
 % Get all types to test 
-function types = set_types()    
+function quantities = all_quantities()    
     % All M-files in '..' define a type, EXCEPT Contents.m    
 	fpth = fullfile(fileparts(mfilename('fullpath')), '..');        
     qtys = dir(fullfile(fpth,'*.m'));
     [~,types] = cellfun(@fileparts,{qtys.name}','UniformOutput', false);
-    types = types(~strcmp(types,'Contents'));    
+    quantities = types(~strcmp(types,'Contents'));    
 end
     

@@ -152,7 +152,7 @@ function [units,...
     for ii = 1:num_units
         
         % Current unit to process
-        str = unit_strings{ii};
+        str = unit_strings{ii}(find(unit_strings{ii} > ' ',1,'first'):end);        
         
         % Process, in this order: 'long-plural', 'long', 'short-plural', 'short', 'symbol'. We have
         % to ensure that the longest strings are matched first
