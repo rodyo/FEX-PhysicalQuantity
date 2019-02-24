@@ -6,7 +6,7 @@ classdef SolidAngleUnits < UnitOfMeasurementType
         base_unit = BaseUnitOfMeasurement('dimensions', SolidAngleUnits.dimensions,...
                                           'system',     SystemOfUnits.metric,...
                                           'short_name', 'sr',...                                        
-                                          'long_name',  'sterradian'); 
-        other_units = []
+                                          'long_name',  'sterradian')
+        other_units = AngleUnits.other_units;
     end    
 end

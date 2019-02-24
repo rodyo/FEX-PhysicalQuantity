@@ -72,29 +72,42 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
          
          function testBaseUnits(tst)             
              U = tst.pq_units_instance.base_unit;
-             tst.testConstruction(U);
+             tst.testConstruction(U, false);
          end
          
          function testOtherUnits(tst)             
              U = tst.pq_units_instance.other_units;
-             tst.testConstruction(U);
+             tst.testConstruction(U, true);
          end
         
     end
     
     methods
-        function testConstruction(tst, U) 
+        function testConstruction(tst, U, check_empty) 
             
-            % internal consistency check: U can't be empty
-            diagnostic = sprintf('%s''s unit of measurement is empty.',...
-                                 tst.pq_type);             
-            tst.fatalAssertNotEmpty(U, diagnostic);
+            % Consistency check: U can't be empty for non-baseunits
+            if check_empty
+                diagnostic = sprintf('%s''s unit of measurement is empty.',...
+                                     tst.pq_type);             
+                tst.fatalAssertNotEmpty(U, diagnostic);
+            end
             
+            % No errors shall occur during construction
+            try
+                tst.assertable(U);
+            catch ME
+                %tst.fatalAssertFail(ME.message);
+                tst.fatalAssertFail(getReport(ME));
+            end            
+            
+            % Nor any warnings
             diagnostic = sprintf(['%s() issued a warning for one of its ',...
                                   'unit variants.'],...
                                  tst.pq_type);             
             tst.fatalAssertWarningFree(@()tst.assertable(U), diagnostic);
              
+            % For all variants of the unit, the underlying quantity shall
+            % be identical
             diagnostic = sprintf(['%s() gave different outcomes for ',...
                                   'different variants of the same unit.'],...
                                   tst.pq_type);

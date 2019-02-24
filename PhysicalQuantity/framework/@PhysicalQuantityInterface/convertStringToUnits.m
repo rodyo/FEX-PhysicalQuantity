@@ -41,9 +41,9 @@ function [units,...
     if strcmp(str, '<>')
         % TODO: (Rody Oldenhuis) this is where the true magic happens
     else
-        % obj has no specific (base) units. This happens for derived quantities 
-        % like speed (m/s) or Area (m^2). In such cases, use ALL defined units 
-        % to convert the string
+        % obj has no specific (base) units. This happens for derived 
+        % quantities like speed (m/s) or Area (m^2). In such cases, use ALL 
+        % defined units to convert the string
         if isempty(obj(1).units) || isempty(obj(1).units.base_unit)
             
             if isempty(All_Units)                
@@ -57,16 +57,16 @@ function [units,...
             end
             
         % obj has its own units. Even derived quantities may have their own 
-        % units; a force, for example is [M][L]/[T]^2, but we typically call 
-        % that 'N'. In this case, use the quantity's own defined units to 
-        % convert the string
+        % units; a force, for example is [M][L]/[T]^2, but we typically 
+        % call that 'N'. In this case, use the quantity's own defined units 
+        % to convert the string
         else
             valid_units = obj(1).units.getAllUnits();
         end
         
-        % Make sure they're sorted long-to-short                
-        [~,I] = sort( cellfun('prodofsize', {valid_units.long_name_plural_form}), 'descend');
-        valid_units = valid_units(I);
+        % Make sure they're sorted long-to-short
+        valid_units = sort_by_length(valid_units,...
+                                     'long_name_plural_form');
     end
     
     % LEXER    
@@ -97,8 +97,7 @@ function [units,...
     str = regexprep(str, ['(' sep ')4th\>'   ], '$14', 'ignorecase');
     str = regexprep(str, ['(' sep ')fifth\>' ], '$15', 'ignorecase');
     str = regexprep(str, ['(' sep ')5th\>'   ], '$15', 'ignorecase');
-    
-    
+        
     % PARSER
     
     % The "square" or "squared" word requires a parsing step. Examples: 
@@ -107,14 +106,7 @@ function [units,...
     % "per meters squared"
     % "per square root Hertz"
     
-    % Also, long unit names with spaces in them will fail: 
-    % - 'astronomical unit'
-    % - 'chineses miles'
-    % due to premature splitting
-    
     % TODO: (Rody Oldenhuis) ....that ^
-    
-    
     
     % Split up the string based on known separators
     [unit_strings,...
@@ -144,18 +136,21 @@ function [units,...
             powers(ii) = -powers(ii); end        
     end
     
-    % Validate and convert all unit strings
-    
+    % Validate and convert all unit strings    
     units(num_units)       = DerivedUnitOfMeasurement();
     multipliers(num_units) = SiMultipliersLong.none;
     
     for ii = 1:num_units
         
         % Current unit to process
-        str = unit_strings{ii}(find(unit_strings{ii} > ' ',1,'first'):end);        
+        str = remove_leading_nonprintables(unit_strings{ii});
+        % (may have been cleared in the inner loop)
+        if isempty(str)
+            continue; end
         
-        % Process, in this order: 'long-plural', 'long', 'short-plural', 'short', 'symbol'. We have
-        % to ensure that the longest strings are matched first
+        % Process, in this order: 'long-plural', 'long', 'short-plural',
+        % 'short', 'symbol'. We have to ensure that the longest strings 
+        % are matched first
         for kk = 1:size(To_Match,1)
 
             % Rename for better clarity
@@ -163,25 +158,39 @@ function [units,...
             mults   = To_Match{kk,2};
             multstr = To_Match{kk,3};
             
+            valid_units = sort_by_length(valid_units, match);
+            
             % Loop through all available units
             str_processed = false;
             for jj = 1:numel(valid_units)
                 
                 % Abbreviate
-                U = valid_units(jj);            
+                U = valid_units(jj);
                 
-                % Remove any non-printing/typable characters from the string to 
-                % match (degrees, for example, have a symbol of '\b^o' for
-                % display purposes, but this is not typically what a user would
-                % type)
-                to_match = U.(match);
-                to_match = to_match(find(to_match > ' ', 1,'first'):end);
+                % Remove any non-printing/typable characters from the 
+                % string to match (degrees, for example, have a symbol of 
+                % '\b^o' for display purposes, but this is not typically 
+                % what a user would type)
+                to_match     = U.(match);
+                to_match     = remove_leading_nonprintables(to_match);
+                len_to_match = numel(to_match); % NOTE: *before* regexptranslate!
+                                
+                % If there is a space in the string to match, we need to
+                % examine the next entry in unit_strings as well:
+                unit_str = str;  
+                next_str_taken = false;
+                if any(isspace(to_match)) && ii < numel(unit_strings)
+                    next_str = unit_strings{ii+1};
+                    unit_str = [str ' ',...
+                                remove_leading_nonprintables(next_str)];
+                    next_str_taken = true;
+                end
                 
                 % Prepare the search string for use in regexp
                 to_match = regexptranslate('escape', to_match);
 
                 % Find matches in the unit names, from longest to shortest
-                matchind = regexp(str, [to_match '\>'], 'once');
+                matchind = regexp(unit_str, [to_match '\>'], 'once');
                 if ~isempty(matchind)
 
                     % Add the relevant unit to the end result
@@ -189,25 +198,29 @@ function [units,...
                     multipliers(ii) = 1; 
 
                     % Remove this portion from the string
-                    str(matchind + (0:length(to_match)-1)) = [];
+                    unit_str(matchind + (0:len_to_match-1)) = [];
 
                     % If that exhausts the string, we're done
-                    if isempty(str)
-                        str_processed = true; break; end
+                    if isempty(unit_str)
+                        str_processed = true; 
+                        if next_str_taken % (clear so it isn't reprocessed)
+                            unit_strings{ii+1} = []; end
+                        break;
+                    end
                     
                     % Look for any SI multiplier prepended directly to
                     % the unit just matched
-                    multind = strcmp(str, multstr);                        
+                    multind = strcmp(unit_str, multstr);                        
                     assert(any(multind),...
                            [subclass ':invalid_multiplier'], [...
                            'Given multiplier ''%s'' does not comply with ',...
                            'the SI-standard. Note that the multpliers are ',...
                            'case-sensitive.'],...
-                           str);                           
+                           unit_str);                           
                     assert(isequal(U.system, SystemOfUnits.metric),...
                            [subclass ':multiplier_with_nonmetric_system'], [...
-                           'SI-multipliers cannot be used with non-metric units of ',...
-                           'measurement.']);
+                           'SI-multipliers cannot be used with non-metric ',...
+                           'units of measurement.']);
 
                     multipliers(ii) = mults(multind);                        
                     str_processed   = true;
@@ -223,12 +236,28 @@ function [units,...
             
         end % loop through all valid units
         
-        % String must have been fully processed by now. If this is not the case, 
-        % an invalid unit was specified
+        % String must have been fully processed by now. If this is not 
+        % the case, an invalid unit was specified
         assert(str_processed,...
                [subclass ':invalid_unit'],...
                '%s has no associated unit of measurement called ''%s''.',...
                subclass, str);        
     end
+    
+    % Corrections related to spaced quantifiers may have been made; make 
+    % corrections for them 
+    inds = cellfun('isempty', unit_strings);    
+    units(inds)       = [];
+    multipliers(inds) = [];
+    powers(inds)      = [];
 
+end
+
+function str = remove_leading_nonprintables(str)
+    str = str(find(str > ' ', 1, 'first'):end);
+end
+
+function valid_units = sort_by_length(valid_units, field)    
+    [~,I] = sort(cellfun('prodofsize', {valid_units.(field)}), 'descend');
+    valid_units = valid_units(I);    
 end
