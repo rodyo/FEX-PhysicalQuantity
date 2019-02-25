@@ -3,39 +3,25 @@ classdef (TestTags = {'UnittestsForArea'})...
     
     %% Setup & teardown
         
-    % Properties ---------------------------------------------------------------
-    
-    properties         
-    end
-    
+    % Properties ----------------------------------------------------------
+        
     properties  (TestParameter)
+        
+        test_dir = {get_quantities_dir()};
         
         unit   = {'miles'   'mi'     'mile'    'km' 'mm'  'ly'                   char(197)}
         factor = {1609.344  1609.344 1609.344  1e3  1e-3  9.460536207068016e+15  1e-10    }
         
     end
+        
+    % Methods -------------------------------------------------------------
     
-    
-    properties (MethodSetupParameter)                
-    end
-    
-    % Methods ------------------------------------------------------------------
-    
-    methods (TestClassSetup) % (before ALL tests)
-        function setPaths(~)
-            addpath(genpath( fullfile(fileparts(mfilename('fullpath')),'..') ));
+    % (before ALL tests)
+    methods (TestClassSetup) 
+        function applyFixtures(tst)
+            apply_test_fixtures(tst);
         end
     end
-    
-    methods (TestMethodSetup) % (before EVERY test)           
-    end
-    
-    methods(TestClassTeardown) % (after ALL tests)       
-    end    
-    
-    methods(TestMethodTeardown) % (after EVERY test)       
-    end
-    
     
     %% Test cases    
    
@@ -74,24 +60,4 @@ classdef (TestTags = {'UnittestsForArea'})...
         
     end
     
-    methods (Test,...
-             TestTags = {'AreaConversion'})
-        
-    end
-    
-    methods (Test,...
-             TestTags = {'AreaConstruction'})
-        
-    end
-    
-    methods (Test,...
-             TestTags = {'AreaDisplay'})
-        
-    end
-    
-    methods (Test,...
-             TestTags = {'AreaMalformedCalls'})
-        
-    end
-        
 end

@@ -16,8 +16,7 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
     end
     
     properties (TestParameter)                 
-        test_dir = {fullfile(fileparts(mfilename('fullpath')),'..')};        
-        disp_fmt = {'auto' 'long' 'short'}
+        test_dir = {get_quantities_dir()};        
     end
     
     properties (MethodSetupParameter)
@@ -30,17 +29,7 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
     % (before ALL tests)
     methods (TestClassSetup) 
         function applyFixtures(tst)
-            
-            % Make sure current folder is set to test_dir
-            cfix = @matlab.unittest.fixtures.CurrentFolderFixture;
-            cfix = cfix(tst.test_dir{1});            
-            tst.applyFixture(cfix);
-            
-            % Make sure all thr right stuff is on the MATLAB search path
-            pfix = @matlab.unittest.fixtures.PathFixture;
-            pfix = pfix(tst.test_dir{1}, 'IncludeSubfolders', true);            
-            tst.applyFixture(pfix);
-            
+            apply_test_fixtures(tst);            
         end        
     end
     

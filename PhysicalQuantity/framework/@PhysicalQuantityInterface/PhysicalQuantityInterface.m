@@ -37,6 +37,8 @@ AngularMomentumVector % = 3 x AngularMomentum
 
 
 classdef (Abstract) PhysicalQuantityInterface 
+    
+    %#ok<*ALIGN>
 
     %% Properties
     
@@ -377,39 +379,32 @@ classdef (Abstract) PhysicalQuantityInterface
         function yn = eq(this, that)
             try assert_both_are_equal_type(this, that, 'compare','to');
                 yn = (double(this) == double(that));
-            catch ME, try   this.throwWithoutAppStack(ME); 
-                      catch,that.throwWithoutAppStack(ME); end
-            end
+            catch ME, throw_with_appropriate_method(ME,this,that); end            
         end
         function yn = ne(this, that)
-            try assert_both_are_equal_type(this, that, 'compare','to'); %#ok<ALIGN>
+            try assert_both_are_equal_type(this, that, 'compare','to'); 
                 yn = (double(this) ~= double(that));
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end,end
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end
         function yn = lt(this, that)
-            try assert_both_are_equal_type(this, that, 'compare','to');%#ok<ALIGN>
+            try assert_both_are_equal_type(this, that, 'compare','to');
                 yn = (double(this) < double(that));
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end,end
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end
         function yn = le(this, that)
-            try assert_both_are_equal_type(this, that, 'compare','to');%#ok<ALIGN>
+            try assert_both_are_equal_type(this, that, 'compare','to');
                 yn = (double(this) <= double(that));
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end,end
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end
         function yn = gt(this, that)
-            try assert_both_are_equal_type(this, that, 'compare','to');%#ok<ALIGN>
+            try assert_both_are_equal_type(this, that, 'compare','to');
                 yn = (double(this) > double(that));
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end,end
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end
         function yn = ge(this, that)
-            try assert_both_are_equal_type(this, that, 'compare','to');%#ok<ALIGN>
+            try assert_both_are_equal_type(this, that, 'compare','to');
                 yn = (double(this) >= double(that));
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end,end
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end
                 
         % Basic operators: 
@@ -519,14 +514,12 @@ classdef (Abstract) PhysicalQuantityInterface
                 end
                 
             catch ME
-                try    this.throwWithoutAppStack(ME); 
-                catch, that.throwWithoutAppStack(ME); end
+                throw_with_appropriate_method(ME,this,that); 
             end            
         end
         function new = minus(this, that)
-            try new = plus(this, -that, 1); %#ok<ALIGN>
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end, end
+            try new = plus(this, -that, 1); 
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end
                 
         % Basic operators:         
@@ -535,9 +528,8 @@ classdef (Abstract) PhysicalQuantityInterface
             % TODO: (Rody Oldenhuis) this is potentially complex, because
             % matrix/matrix operations should also take into account units being
             % multiplied...for now, just make both equal:
-            try new = times(this,that); %#ok<ALIGN>
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end, end
+            try new = times(this,that);
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end         
         function new = times(this, that)
                         
@@ -586,8 +578,7 @@ classdef (Abstract) PhysicalQuantityInterface
                 end
 
             catch ME
-                try    this.throwWithoutAppStack(ME); 
-                catch, that.throwWithoutAppStack(ME); end
+                throw_with_appropriate_method(ME,this,that);
             end
             
         end
@@ -596,21 +587,18 @@ classdef (Abstract) PhysicalQuantityInterface
             % TODO: (Rody Oldenhuis) this is potentially complex, because
             % matrix operations should also take into account units being
             % multiplied/divided...for now, just make both equal:
-            try new = this./that; %#ok<ALIGN>
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end, end
+            try new = this./that; 
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end
         function new = ldivide(this, that)
             % TODO: (Rody Oldenhuis) (same comment as in mldivide)
-            try new = this./that; %#ok<ALIGN>
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end, end
+            try new = this./that; 
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end
         function new = mrdivide(this, that)
             % TODO: (Rody Oldenhuis) (same comment as in mldivide)
-            try new = this./that; %#ok<ALIGN>
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end, end
+            try new = this./that;
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end
         function new = rdivide(this, that)
             
@@ -657,8 +645,7 @@ classdef (Abstract) PhysicalQuantityInterface
                                        'Dimensions', this_dims - that_dims);
                                    
             catch ME
-                try    this.throwWithoutAppStack(ME); 
-                catch, that.throwWithoutAppStack(ME); end
+                throw_with_appropriate_method(ME,this,that); 
             end
             
         end
@@ -667,9 +654,8 @@ classdef (Abstract) PhysicalQuantityInterface
         % - power/nthroot        
         function new = mpower(this, that)
             % TODO: (Rody Oldenhuis) 
-            try new = this.^that; %#ok<ALIGN>
-            catch ME, try    this.throwWithoutAppStack(ME); 
-                      catch, that.throwWithoutAppStack(ME); end, end
+            try new = this.^that;
+            catch ME, throw_with_appropriate_method(ME,this,that); end
         end
         function new = power(this, that) %#ok<INUSD,STOUT>
             % TODO: (Rody Oldenhuis) 
@@ -1042,6 +1028,13 @@ classdef (Abstract) PhysicalQuantityInterface
     
 end
 
+function throw_with_appropriate_method(ME, this, that)
+    if isa(this,'PhysicalQuantityInterface')
+        this.throwWithoutAppStack(ME);
+    else
+        that.throwWithoutAppStack(ME); 
+    end
+end
 
 function assert_both_are_physical_quantities(this, that, op,prp)
     

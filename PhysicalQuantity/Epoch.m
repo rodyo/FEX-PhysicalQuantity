@@ -1,10 +1,13 @@
+
+% TODO: (Rody Oldenhuis) continue this
+
 classdef Epoch 
     
     %% properties
     
     properties (SetAccess = immutable)
         
-        t (1,1) datetime = datetime(now())
+        t (1,1) datetime = datetime()
         
     end
     
@@ -15,7 +18,7 @@ classdef Epoch
     methods
         function obj = Epoch(varargin)
             
-            datetime(varargin);
+            datetime(varargin{:});
             
         end        
     end

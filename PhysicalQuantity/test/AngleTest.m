@@ -5,7 +5,9 @@ classdef (TestTags = {'UnittestsForAngle'})...
         
     % Properties ----------------------------------------------------------
        
-    properties  (TestParameter)
+    properties (TestParameter)
+        
+        test_dir = {get_quantities_dir()};
         
         fcn = {@acos, @asin, @atan,...
                @acsc, @asec, @acot}
@@ -15,33 +17,15 @@ classdef (TestTags = {'UnittestsForAngle'})...
         
     end
     
-    
-    properties (MethodSetupParameter)                
-    end
-    
     % Methods -------------------------------------------------------------
     
     % (before ALL tests)
     methods (TestClassSetup) 
-        function setPaths(~)
-            thispth = fullfile(fileparts(mfilename('fullpath')),'..');
-            addpath(genpath( thispth ));
+        function applyFixtures(tst)
+            apply_test_fixtures(tst);
         end
     end
-    
-    % (before EVERY test)           
-    methods (TestMethodSetup) 
-    end
-    
-    % (after ALL tests)       
-    methods(TestClassTeardown) 
-    end  
-    
-     % (after EVERY test)           
-    methods(TestMethodTeardown)
-    end
-    
-    
+        
     %% Test cases    
    
     methods (Test,...
@@ -155,8 +139,7 @@ classdef (TestTags = {'UnittestsForAngle'})...
              tst.fatalAssertEqual(cos(A), cos(m * conversion_factor));
              
          end
-         
-                  
+                           
          % Do the gradians display correctly as gradians? 
          function testAngleGradDisplayOk(tst, grad)
                          
@@ -175,8 +158,7 @@ classdef (TestTags = {'UnittestsForAngle'})...
              %}             
              
          end        
-         
-         
+                  
          % and do they still translate to rad transparently?
          function testAngleGradDisplayOkAndFunctional(tst, grad)
              
@@ -193,11 +175,6 @@ classdef (TestTags = {'UnittestsForAngle'})...
                  
     end
     
-    methods (Test,...
-             TestTags = {'AngleMalformedCalls'})
-        
-    end
-        
 end
 
 function out = get_cmd_output(ang) %#ok<INUSD>

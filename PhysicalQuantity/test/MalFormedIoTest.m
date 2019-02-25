@@ -11,86 +11,20 @@ classdef (TestTags = {'UnitTestsForIncorrectUsage'})...
         pq_type 
     end
     
-    properties  (TestParameter)
+    properties (TestParameter)
+        test_dir = {get_quantities_dir()};
     end
     
     properties (MethodSetupParameter)
-        type = {'Dimensionless'
-                %{
-                %}
-                'Length'
-                'Distance'
-                'Displacement'
-                %{
-                %}
-                'Mass'
-                %{
-                %}
-                'Time'
-                'Duration'
-                %{
-                %}
-                'Current'
-                %{
-                %}
-                'Temperature'
-                %{
-                %}
-                'LuminousIntensity'
-                %{
-                %}                
-                'AmountOfSubstance'
-                %{
-                Derived units
-                %}
-                'Angle'
-                'Area'
-                'Volume'
-                'Density'
-                'Viscocity'
-                'Force'
-                'Torque'
-                'Pressure'
-                'Speed'
-                'Acceleration'
-                'Jerk'
-                'Snap'
-                'Crackle'
-                'Pop'
-                'AngularAcceleration'
-                'AngularSpeed'
-                %{
-                %}
-                'Momentum'
-                'LinearMomentum'
-                'AngularMomentum'
-                'SpecificAngularMomentum'
-                'MomentOfInertia'
-                'Energy'
-                'SpecificEnergy'
-                %{
-                %}
-                'Frequency'
-                'Wavenumber'
-                %{
-                %}
-                'Potential'
-                'Power'
-                'Resistance'
-                'Capacitance'
-                'Charge'
-                'Conductance'
-                'Inductance'
-                'MagneticFlux'
-                'MagneticFluxDensity'
-                };
+        type = all_quantities()
     end
     
     % Methods ------------------------------------------------------------------
         
-    methods (TestClassSetup) % (before ALL tests)
-        function setPaths(~)            
-            addpath(genpath( fullfile(fileparts(mfilename('fullpath')),'..') ));
+    % (before ALL tests)
+    methods (TestClassSetup) 
+        function applyFixtures(tst)
+            apply_test_fixtures(tst);
         end
     end
     
@@ -101,14 +35,7 @@ classdef (TestTags = {'UnitTestsForIncorrectUsage'})...
             tst.pq_instance    = tst.pq_constructor();
         end
     end
-    
-    methods(TestClassTeardown) % (after ALL tests)
-    end    
-    
-    methods(TestMethodTeardown) % (after EVERY test)
-    end
-    
-    
+        
     %% Test cases    
    
     % Errors on the constructor interfaces
@@ -127,7 +54,8 @@ classdef (TestTags = {'UnitTestsForIncorrectUsage'})...
         function testTrigError(tst) 
             
             % With the following exceptions, of course: 
-            if ~any(strcmp(tst.pq_type, {'Angle', 'Hyperbolicangle'}))            
+            if ~any(strcmp(tst.pq_type, {'Angle'      , 'Hyperbolicangle',...
+                                         'PlanarAngle'}))            
                 
                 P = tst.pq_constructor();
                 E = [tst.pq_type ':invalid_operation'];
@@ -171,7 +99,7 @@ classdef (TestTags = {'UnitTestsForIncorrectUsage'})...
     end
     
        
-    % Do the calsses fail in the correct way when using them incorrectty?
+    % Do the classes fail in the correct way when using them incorrectly?
     methods (Test,...
              TestTags = {'IncorrectClassUsage'})
          

@@ -42,8 +42,12 @@
                 num_objs = numel(other);
                 obj(num_objs) = obj(1);
                 for ii = 1:num_objs
-                    for jj = properties(obj(ii))'
-                        try obj(ii).(jj{1}) = other(ii).(jj{1}); end, end %#ok<TRYNC>
+                    P = properties(obj(ii));
+                    for jj = 1:numel(P)                        
+                        try %#ok<TRYNC>
+                            obj(ii).(P{jj}) = other(ii).(P{jj}); 
+                        end
+                    end 
                 end
                 return 
             end

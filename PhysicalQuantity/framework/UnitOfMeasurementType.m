@@ -5,7 +5,7 @@
         base_unit   % (no verification)
         other_units % (no verification)
     end
-    
+       
     methods   
         function obj = UnitOfMeasurementType(varargin)
             
@@ -26,10 +26,20 @@
     
     methods        
         function units = getAllUnits(obj)            
-            % NOTE: (Rody Oldenhuis) concatenation order is important; a
-            % BaseUnit can be cast to a DerivedUnit, but not 
-            % the other way round
-            units = [obj.other_units(:); obj.base_unit];            
+            
+            % Memoize it, because it's a bit slow:
+            persistent All_Units
+            
+            cls = class(obj);
+            if isempty(All_Units) || ~isfield(All_Units, cls)
+                % NOTE: (Rody Oldenhuis) concatenation order is important; 
+                % a BaseUnit can be cast to a DerivedUnit, but not the 
+                % other way round
+                All_Units.(cls) = [obj.other_units(:); obj.base_unit];
+            end
+            
+            units = All_Units.(cls);
+
         end
     end
     

@@ -3,36 +3,24 @@ classdef (TestTags = {'UnittestsForIncorrectUsage'})...
     
     %% Setup & teardown
      
-    % Properties ---------------------------------------------------------------
+    % Properties ----------------------------------------------------------
     
     properties 
         pq_constructor
         pq_type 
     end
     
-    properties  (TestParameter)
+    properties (TestParameter)
+        test_dir = {get_quantities_dir()};
     end
-    
-    properties (MethodSetupParameter)        
-    end
-    
-    % Methods ------------------------------------------------------------------
         
-    methods (TestClassSetup) % (before ALL tests)
-        function setPaths(~)            
-            addpath(genpath( fullfile(fileparts(mfilename('fullpath')),'..') ));
+    % Methods -------------------------------------------------------------
+        
+    methods (TestClassSetup) 
+        function applyFixtures(tst)
+            apply_test_fixtures(tst);
         end
-    end
-    
-    methods (TestMethodSetup) % (before EVERY test)
-    end
-    
-    methods(TestClassTeardown) % (after ALL tests)       
     end    
-    
-    methods(TestMethodTeardown) % (after EVERY test)       
-    end
-    
     
     %% Test cases    
    

@@ -3,36 +3,19 @@ classdef (TestTags = {'UnittestsForSpeed'})...
     
     %% Setup & teardown
         
-    % Properties ---------------------------------------------------------------
+    % Properties ----------------------------------------------------------
     
-    properties         
+    properties  (TestParameter)        
+        test_dir = {get_quantities_dir()};
+        knots = {'kn' 'knots' 'knot'}        
     end
     
-    properties  (TestParameter)
-        
-        knots = {'kn' 'knots' 'knot'}
-        
-    end
+    % Methods -------------------------------------------------------------
     
-    
-    properties (MethodSetupParameter)                
-    end
-    
-    % Methods ------------------------------------------------------------------
-    
-    methods (TestClassSetup) % (before ALL tests)
-        function setPaths(~)
-            addpath(genpath( fullfile(fileparts(mfilename('fullpath')),'..') ));
+    methods (TestClassSetup) 
+        function applyFixtures(tst)
+            apply_test_fixtures(tst);
         end
-    end
-    
-    methods (TestMethodSetup) % (before EVERY test)           
-    end
-    
-    methods(TestClassTeardown) % (after ALL tests)       
-    end    
-    
-    methods(TestMethodTeardown) % (after EVERY test)       
     end
     
     
@@ -95,7 +78,7 @@ classdef (TestTags = {'UnittestsForSpeed'})...
     
     methods (Test,...
              TestTags = {'SpeedDisplay'})
-         
+         % TODO: (Rody Oldenhuis)          
     end
     
         

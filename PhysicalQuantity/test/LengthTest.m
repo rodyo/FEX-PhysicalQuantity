@@ -3,12 +3,14 @@ classdef (TestTags = {'UnittestsForLength'})...
     
     %% Setup & teardown
         
-    % Properties ---------------------------------------------------------------
+    % Properties ----------------------------------------------------------
     
     properties         
     end
     
     properties  (TestParameter)
+        
+        test_dir = {get_quantities_dir()};
         
         short_name        = {LengthUnits.other_units.short_name}
         short_name_plural = {LengthUnits.other_units.short_name_plural_form}
@@ -16,28 +18,14 @@ classdef (TestTags = {'UnittestsForLength'})...
         conversion_factor = {LengthUnits.other_units.conversion_to_base}
         
     end
-        
-    properties (MethodSetupParameter)   
-    end
+            
+    % Methods -------------------------------------------------------------
     
-    
-    % Methods ------------------------------------------------------------------
-    
-    methods (TestClassSetup) % (before ALL tests)
-        function setPaths(~)
-            addpath(genpath( fullfile(fileparts(mfilename('fullpath')),'..') ));
+    methods (TestClassSetup) 
+        function applyFixtures(tst)
+            apply_test_fixtures(tst);
         end
-    end
-    
-    methods (TestMethodSetup) % (before EVERY test)           
-    end
-    
-    methods(TestClassTeardown) % (after ALL tests)       
     end    
-    
-    methods(TestMethodTeardown) % (after EVERY test)       
-    end
-    
     
     %% Test cases    
    
@@ -92,21 +80,6 @@ classdef (TestTags = {'UnittestsForLength'})...
             tst.fatalAssertEqual(double(L), 5.432 * 1609.344);
         end
         
-        
-    end
-    
-    methods (Test,...
-             TestTags = {'LengthConversion'})
-        
-    end
-    
-    methods (Test,...
-             TestTags = {'LengthDisplay'})
-        
-    end
-    
-    methods (Test,...
-             TestTags = {'LengthArrays'})
         
     end
         

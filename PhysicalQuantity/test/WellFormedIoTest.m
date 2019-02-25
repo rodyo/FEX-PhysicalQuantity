@@ -12,7 +12,7 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
     end
     
     properties (TestParameter)                 
-        test_dir = {fullfile(fileparts(mfilename('fullpath')),'..')};        
+        test_dir = {get_quantities_dir()};        
         disp_fmt = {'auto' 'long' 'short'}
     end
     
@@ -25,17 +25,7 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
     % (before ALL tests)
     methods (TestClassSetup) 
         function applyFixtures(tst)
-            
-            % Make sure current folder is set to test_dir
-            cfix = @matlab.unittest.fixtures.CurrentFolderFixture;
-            cfix = cfix(tst.test_dir{1});            
-            tst.applyFixture(cfix);
-            
-            % Make sure all thr right stuff is on the MATLAB search path
-            pfix = @matlab.unittest.fixtures.PathFixture;
-            pfix = pfix(tst.test_dir{1}, 'IncludeSubfolders', true);            
-            tst.applyFixture(pfix);
-            
+            apply_test_fixtures(tst);            
         end        
     end
     
@@ -57,7 +47,7 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
         
         % Do we get an error when constructing with the wrong units?
         function testWrongUnits(tst)
-            C = @()tst.pq_constructor(rand, 'km^2/C*mol');
+            C = @()tst.pq_constructor(rand, 'km^2/C*mol');            
             if ~any(strcmp(tst.pq_type, {'Dimensionless'}))
                 E = [tst.pq_type ':invalid_unit'];                
                 tst.fatalAssertError(C, E);                
@@ -196,13 +186,3 @@ classdef (TestTags = {'UnittestsForSuperclass'})...
     end
         
 end
-
-% Get all types to test 
-function quantities = all_quantities()    
-    % All M-files in '..' define a type, EXCEPT Contents.m    
-	fpth = fullfile(fileparts(mfilename('fullpath')), '..');        
-    qtys = dir(fullfile(fpth,'*.m'));
-    [~,types] = cellfun(@fileparts,{qtys.name}','UniformOutput', false);
-    quantities = types(~strcmp(types,'Contents'));    
-end
-    
