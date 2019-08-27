@@ -237,8 +237,7 @@ classdef PhysicalDimension
             end
                        
         end
-        
-        
+                
         % generate string representation        
         function str = char(obj)
             
@@ -254,35 +253,39 @@ classdef PhysicalDimension
                 % Dimensions (Unicode ftw!)
                 num = cell(numel(dims),1);
                 for jj = 1:numel(dims)
-                    if dims(jj)
+                    
+                    dim = dims(jj);                    
+                    if dim~=0
+                        
                         pwr = '';
-                        if dims(jj) > 1
-                            switch dims(jj) 
+                        
+                        % integral powers
+                        if round(dim)==dim 
+                        
+                            ssc = num2superscript(dim);
+                            if dim > 1 || dim < 0 
+                                pwr = ssc; end
+                            
+                        % non-integral powers
+                        else 
+                            % Check if exact rational representation 
+                            % is possible:
+                            [n,d] = rat(dim,0);
+                            if (n/d)-dim == 0
+                                pwr = [num2superscript(n),...
+                                       char(11789),...
+                                       num2superscript(d)];
                                 
-                                case 2, pwr = char(178);
-                                case 3, pwr = char(179);
-                                    
-                                case {4 5 6 7 8 9}
-                                    pwr = char(8304+dims(jj));  
-                                    
-                                otherwise
-                                    pwr = sprintf('^%d', dims(jj));
-                            end                            
+                            else % if not, use decimal representation
+                                pwr = num2superscript(dim);
+                            end
+                            
                         end
-                        if dims(jj) < 0
-                            switch dims(jj) 
-                                case -1, pwr = [char(8315) char(185)];
-                                case -2, pwr = [char(8315) char(178)];
-                                case -3, pwr = [char(8315) char(179)];  
-                                    
-                                case {-4 -5 -6 -7 -8 -9}
-                                    pwr = [char(8315) char(8304-dims(jj))];                                      
-                                    
-                                otherwise, pwr = sprintf('^(%d)', dims(jj)); 
-                            end                            
-                        end
+                        
                         num{jj} = ['[' props{jj} ']' pwr];
+                        
                     end
+                    
                 end
                 
                 % Format string
@@ -293,6 +296,27 @@ classdef PhysicalDimension
             % Free counter
             if counter
                 str = [str sprintf(' (type %d)', counter)]; end
+            
+            % Unicode ftw!  
+            function pwr = num2superscript(num)
+
+                str = num2str(num);
+                pwr = char(zeros(size(str)));
+
+                for kk = 1:numel(str)
+                    chr = str(kk);
+                    switch chr
+                        case '-', pwr(kk) = char(8315);
+                        case '.', pwr(kk) = char(729);
+                        case '1', pwr(kk) = char(185);
+                        case '2', pwr(kk) = char(178);
+                        case '3', pwr(kk) = char(179);
+                        otherwise
+                            pwr(kk) = char(8304 + str2double(chr));
+                    end
+                end
+                
+            end
             
         end        
         function str = string(obj)

@@ -24,14 +24,16 @@ classdef PhysicalQuantity < PhysicalQuantityInterface
                                
             % Forbid instantiations from command line
             assert(numel(dbstack) > 1,...
-                   [mfilename('class') ':invalid_instantiation'],...
-                   '%s() cannot be instantiated from the MATLAB command line.',...
+                   [mfilename('class') ':invalid_instantiation'], [...
+                   '%s() cannot be instantiated ',...
+                   'from the MATLAB command line.'],...
                    mfilename('class'));
             
             % Construct it in the super
             obj = obj@PhysicalQuantityInterface(varargin{:});
             
-            % Make sure this intermediate product has no units (just dimensions)
+            % Make sure this intermediate product has no units 
+            % (just dimensions)
             [obj.given_unit]   = deal(UnitOfMeasurement.empty);
             [obj.current_unit] = deal(UnitOfMeasurement.empty);
                            
