@@ -6,12 +6,16 @@ classdef MagneticFluxDensity < PhysicalQuantityInterface
         units      = []% TODO: 'Tesla'
     end 
     
-    % Dummy constructor - needed until R2017b. If you're on a newer version
-    % than that, this whole methods block can be safely removed.    
+    % Dummy constructor - needed until R2017b
     methods
         function obj = MagneticFluxDensity(varargin)
-            obj = obj@PhysicalQuantityInterface(varargin{:});
-        end        
+            obj = obj@PhysicalQuantityInterface(varargin{:}); end 
     end
-        
+    
+    % rand() method - for things like rand(1,3,'MagneticFluxDensity')
+    methods (Static)
+        function R = rand(varargin)
+            R = MagneticFluxDensity(rand(varargin{:}), 'kg/s^2/A'); end
+    end
+    
 end

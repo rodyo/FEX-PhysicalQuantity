@@ -28,4 +28,10 @@ classdef Dimensionless < PhysicalQuantityInterface
         
     end
     
+    % rand() method - for things like rand(1,3,'Dimensionless')
+    methods (Static)
+        function R = rand(varargin)
+            R = Dimensionless(rand(varargin{:})); end
+    end
+        
 end

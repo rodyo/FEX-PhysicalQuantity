@@ -6,12 +6,16 @@ classdef Pressure < PhysicalQuantityInterface
         units      = get_units('pressure_units') 
     end 
              
-    % Dummy constructor - needed until R2017b. If you're on a newer version
-    % than that, this whole methods block can be safely removed.
+    % Dummy constructor - needed until R2017b
     methods
         function obj = Pressure(varargin)
-            obj = obj@PhysicalQuantityInterface(varargin{:});
-        end        
-    end    
+            obj = obj@PhysicalQuantityInterface(varargin{:}); end 
+    end   
+    
+    % rand() method - for things like rand(1,3,'Pressure')
+    methods (Static)
+        function R = rand(varargin)
+            R = Pressure(rand(varargin{:}), 'Pa'); end
+    end
     
 end

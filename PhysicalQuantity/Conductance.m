@@ -6,12 +6,16 @@ classdef Conductance < PhysicalQuantityInterface
         units      = []% TODO: 'Siemens', \Mho
     end 
     
-    % Dummy constructor - needed until R2017b. If you're on a newer version
-    % than that, this whole methods block can be safely removed.    
+    % Dummy constructor - needed until R2017b
     methods
         function obj = Conductance(varargin)
-            obj = obj@PhysicalQuantityInterface(varargin{:});
-        end        
+            obj = obj@PhysicalQuantityInterface(varargin{:}); end 
     end
-        
+    
+    % rand() method - for things like rand(1,3,'Conductance')
+    methods (Static)
+        function R = rand(varargin)
+            R = Conductance(rand(varargin{:}), 's^3*A^2/kg/m^2'); end
+    end
+            
 end

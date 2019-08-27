@@ -1000,15 +1000,12 @@ classdef (Abstract) PhysicalQuantityInterface
     end
     
     % Quantity factories
-    methods (Static)
+    methods (Abstract,...
+             Static)
         
-        % TODO: (Rody Oldenhuis) ...I guess every class has to override
-        % this...there is no way to detect which class is calling the
-        % inherited static method
-        function R = rand(varargin)    
-            mfilename('class')
-            R = Length(builtin('rand', varargin{:}), 'm');
-        end
+        % there is no way to detect which class is calling the inherited 
+        % static method
+        R = rand(varargin);
         
     end
         

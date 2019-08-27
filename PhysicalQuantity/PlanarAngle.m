@@ -1,11 +1,10 @@
 classdef PlanarAngle < Angle
-    % Alias for 'Angle'      
+% Alias for 'Angle'      
     
-    % Dummy constructor - needed until R2017b. If you're on a newer version
-    % than that, this whole methods block can be safely removed.
+    % Dummy constructor - needed until R2017b
     methods
         function obj = PlanarAngle(varargin)
-            obj = obj@Angle(varargin{:});
-        end        
+            obj = obj@Angle(varargin{:}); end 
     end 
+        
 end

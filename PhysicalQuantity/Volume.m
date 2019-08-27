@@ -6,12 +6,16 @@ classdef Volume < PhysicalQuantityInterface
         units      = get_units('volume_units')
     end
     
-    % Dummy constructor - needed until R2017b. If you're on a newer version
-    % than that, this whole methods block can be safely removed.
+    % Dummy constructor - needed until R2017b
     methods
         function obj = Volume(varargin)
-            obj = obj@PhysicalQuantityInterface(varargin{:});
-        end        
+            obj = obj@PhysicalQuantityInterface(varargin{:}); end 
+    end
+    
+    % rand() method - for things like rand(1,3,'Volume')
+    methods (Static)
+        function R = rand(varargin)
+            R = Volume(rand(varargin{:}), 'm^3'); end
     end
     
 end

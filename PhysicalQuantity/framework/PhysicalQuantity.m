@@ -6,7 +6,7 @@ classdef PhysicalQuantity < PhysicalQuantityInterface
 %#ok<*CHARTEN>  ("use newline instead of char(10)" etc.; introduced in R2016b)
     
     
-    %% Properties
+    % Properties ==========================================================
         
     properties (Constant)            
         dimensions = PhysicalDimension.empty()
@@ -14,7 +14,7 @@ classdef PhysicalQuantity < PhysicalQuantityInterface
     end
     
     
-    %% Methods
+    % Methods =============================================================
     
     % Class basics
     methods 
@@ -39,12 +39,7 @@ classdef PhysicalQuantity < PhysicalQuantityInterface
                            
         end
                 
-    end
-    
-    % Operator overloads
-    methods
-        
-        % Invere trig functions are Angle() factories
+        % Operator overloads -- invere trig functions are Angle() factories
         function A = asin(obj, varargin)
             try A = Angle.asin(obj, varargin{:});
             catch ME, throwAsCaller(ME); end
@@ -87,4 +82,12 @@ classdef PhysicalQuantity < PhysicalQuantityInterface
         end
     end
     
+    % rand() method is invalid for this type of unit
+    methods (Static)
+        function R = rand(varargin) %#ok<STOUT>
+            error([mfilename() ':invalid_method'],...
+                  'rand() is invalid for intermediate units.');
+        end
+    end
+        
 end
