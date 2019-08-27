@@ -64,7 +64,7 @@ function new_obj = doTypeCast(obj, other, varargin)
     end
 
     constr  = str2func(class(obj));
-    new_obj = constr(other.value, varargin{:});
+    new_obj = constr(double(other), varargin{:});
 
     % Now adjust the units to the chosen units
     if numel(varargin) > 0

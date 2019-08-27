@@ -210,10 +210,10 @@ classdef (Abstract) PhysicalQuantityInterface
                 obj_is_generic = isa(obj, obj.genericclass);
                 
                 assert(mod(argc,2)==0,...
-                       [subclass ':no_unit_or_unpaired_pvs'],...
+                       [subclass ':no_unit_or_unpaired_pvs'], [...
                        'Incorrect argument count; either no unit of ',...
                        'measurement has been specified, or ',...
-                       'parameters/values are not properly paired.');
+                       'parameters/values are not properly paired.']);
                 
                 % Rename arguments for clarity
                 quantity = varargin{1};
@@ -224,32 +224,22 @@ classdef (Abstract) PhysicalQuantityInterface
                 amt = numel(quantity);
                 if amt > 1 
 
-                    % NOTE: (Rody Oldenhuis) the only other way is with package: 
+                    % NOTE: (Rody) the only other way is with package: 
                     % https://stackoverflow.com/questions/7102828/
                     % and believe me, you don't want to do that. 
                     pq = str2func(subclass);
 
-                    % NOTE: (Rody Oldenhuis) fully construct only the first 
-                    % and then copy all copyable properties over to all the
-                    % others gives staggeringly better performance than
+                    % NOTE: (Rody) fully construct only the first and then 
+                    % copy all copyable properties over to all the others 
+                    % gives staggeringly better performance than
                     % constructing each one individually in a loop: 
                     obj(1) = pq(quantity(1), unitstr, varargin{:});
                     factor = obj(1).value / quantity(1);
                     
-                    obj(amt) = pq();                     
+                    obj = repmat(obj(1), size(quantity));                 
                     for ii = 2:amt
                         obj(ii).value = quantity(ii) * factor; end
                     
-                    [obj.name]             = deal(obj(1).name);
-                    [obj.display_format]   = deal(obj(1).display_format);
-                    
-                    [obj.current_unit]       = deal(obj(1).current_unit);
-                    
-                    [obj.given_unit]       = deal(obj(1).given_unit);
-                    [obj.given_multiplier] = deal(obj(1).given_multiplier);
-                    [obj.given_powers]     = deal(obj(1).given_powers);
-                    
-                    obj = reshape(obj, size(quantity));
                     return;                 
                 end
 
@@ -305,7 +295,7 @@ classdef (Abstract) PhysicalQuantityInterface
                                    && isscalar(value),...
                                    [mfilename() ':invalid_dimensions'],...
                                    'Invalid dimensions specified.');
-                            obj.intermediate_dimensions = value;
+                            obj.intermediate_dimensions = deal(value);
 
                         % Unsupported parameters
                         otherwise
@@ -351,8 +341,7 @@ classdef (Abstract) PhysicalQuantityInterface
         end
         
     end
-    
-    
+        
     % Operator overloads: basic operators     
     methods (Sealed,...
              Hidden)
@@ -538,27 +527,32 @@ classdef (Abstract) PhysicalQuantityInterface
                 if isempty(this) || isempty(that)
                     new = []; return; end
                 
+                asrt = @assert_both_can_be_multiplied;
+                
                 [this,      that,...
                  thisIsNum, thatIsNum,...
-                 thisIsPq,  thatIsPq] = assert_both_can_be_multiplied(this, that,...
-                                                                      'multiply','with');
+                 thisIsPq,  thatIsPq] = asrt(this, that,...
+                                             'multiply','with');
                                                                   
-                % Order does not matter for multiplication. Ensure they are in 
-                % the order (numeric * quantity), to make our lives a but easier
+                % Order does not matter for multiplication. Ensure they are 
+                % in the order (numeric * quantity), to make our lives a 
+                % bit easier
                 if thisIsPq && thatIsNum 
                     [this,that] = deal(that,this); 
                     thisIsNum   = true;   
                     thatIsPq    = true;                
                 end
                 
-                % 'this' is a simple scalar or a Dimensionless, or vice versa
+                % 'this' is a simple scalar or a Dimensionless, or 
+                % vice versa
                 if thisIsNum && thatIsPq
                     constr = str2func(class(that));
                     val    = reshape([that.value], size(that));
                     new    = constr(double(this) .* double(val), ...
                                     that(1).current_unit);
                                 
-                % Both are physical quantities; delegate to the genericclass
+                % Both are physical quantities; delegate to the 
+                % genericclass
                 else
                     this_val = reshape([this.value], size(this));
                     that_val = reshape([that.value], size(that));
@@ -657,11 +651,21 @@ classdef (Abstract) PhysicalQuantityInterface
             try new = this.^that;
             catch ME, throw_with_appropriate_method(ME,this,that); end
         end
-        function new = power(this, that) %#ok<INUSD,STOUT>
-            % TODO: (Rody Oldenhuis) 
-            ME = MException([mfilename('class') ':unsupported_operator'], ...
-                            'Powers of PhysicalQuantities are not yet supported.');
-            throwAsCaller(ME);
+        function new = power(obj, pow)
+            
+            try
+                assert(isnumeric(pow) && isscalar(pow) && isfinite(pow),...
+                       [mfilename('class') ':unsupported_exponent'],...
+                       'Exponents must be finite numeric scalars.');
+                val  = reshape([obj.value], size(obj));
+                dims = obj.getDimensions(obj);
+                new  = PhysicalQuantity(val.^pow,...
+                                        '<>',...
+                                        'Dimensions', dims*pow);
+            catch ME
+                throw_with_appropriate_method(ME,obj,pow );
+            end
+            
         end
         
         function new = sqrtm(obj)
@@ -669,11 +673,9 @@ classdef (Abstract) PhysicalQuantityInterface
             try new = sqrt(obj);
             catch ME, obj.throwWithoutAppStack(ME); end
         end
-        function new = sqrt(obj) %#ok<STOUT,MANU>
-            % TODO: (Rody Oldenhuis) 
-            ME = MException([mfilename('class') ':unsupported_operator'], ...
-                            'Square roots of PhysicalQuantities are not yet supported.');
-            throwAsCaller(ME);
+        function new = sqrt(obj)             
+            try new = obj.^(1/2);
+            catch ME, obj.throwWithoutAppStack(ME); end
         end
                 
         % Basic operators:         
@@ -728,19 +730,26 @@ classdef (Abstract) PhysicalQuantityInterface
         % Basic operations
         % - typecast to char/string
         function str = char(obj)%#ok<MANU>
-            % NOTE: (Rody Oldenhuis) evalc() is the only possible way in MATLAB
-            % to capture command-line output. It is done here to be able to
-            % offload all work to the disp() method (which has no output 
-            % argument by definition), while manipulating the resulting string
-            % prior to assigning it to the output argument.
+            % NOTE: (Rody Oldenhuis) evalc() is the only possible way in 
+            % MATLAB to capture command-line output. It is done here to be 
+            % able to offload all work to the disp() method (which has no 
+            % output argument by definition) while manipulating the 
+            % resulting string prior to assigning it to the output 
+            % argument. 
+            fmt = get(0, 'format');
+            OC  = onCleanup(@()format(fmt));
+            format short e            
+            
             str = strtrim(regexp(evalc('disp(obj);'), newline, 'split'));
             str = char(str(~cellfun('isempty', str)));
+            
         end
         function str = string(obj)
             str = string(char(obj));
         end
         function str = num2str(obj, varargin)
-            % TODO (Rody Oldenhuis): process the other possible arguments (see built-in num2str())
+            % TODO (Rody Oldenhuis): process the other possible arguments 
+            % (see built-in num2str())
             str = char(obj); 
         end
                 
@@ -765,23 +774,29 @@ classdef (Abstract) PhysicalQuantityInterface
         % Change the unit of mesurement 
         obj = changeUnit(obj, desired_unit, use_override);
                 
-        % Reset the currently used unit of measurement to the unit specified at
-        % object construction 
+        % Reset the currently used unit of measurement to the unit 
+        % specified at object construction 
         obj = resetUnit(obj);
         
         % Get the value and unit of measurement, as disp() would show it
         [converted_value,...
          unit_str] = getDisplayedUnit(obj)
-                
+     
+        % Plot 
+        h = plot(obj, varargin);
+        h = plot3(obj, varargin);
+        h = scatter(obj, varargin);
+        h = scatter3(obj, varargin);
+                        
     end
     
     % Trigonometric functions make no sense for anything but Angles; these
     % functions have to be overloaded in the corresponding subclasses.
     methods (Hidden) 
         
-        % STYLE: (Rody Oldenhuis) intentional style violations to make these 
-        % supersimple, repetitive functions easier to proofread while keeping
-        % them concise.
+        % STYLE: (Rody Oldenhuis) intentional style violations to make 
+        % these supersimple, repetitive functions easier to proofread while 
+        % keeping them concise.
         
         % Sin,cos,tan
         function val = sin(obj) %#ok<STOUT>
@@ -811,10 +826,10 @@ classdef (Abstract) PhysicalQuantityInterface
             catch ME, obj.throwWithoutAppStack(ME); end  
         end
         
-        % Inverse trig functions are only valid on Dimensionlesses. These are 
-        % overloaded in both PhysicalQuantity() (to allow things like
-        % asin(Length/Length), resulting in an Angle()), and in Angle() itself
-        % (to allow things like Angle.asin(0.3, 'deg');).
+        % Inverse trig functions are only valid on Dimensionlesses. These 
+        % are overloaded in both PhysicalQuantity() (to allow things like
+        % asin(Length/Length), resulting in an Angle()), and in Angle() 
+        % itself (to allow things like Angle.asin(0.3, 'deg');).
         function val = asin(obj) %#ok<STOUT>
              try obj.forbidTrigfcn('arcsine'); 
              catch ME, obj.throwWithoutAppStack(ME); end      
@@ -846,7 +861,7 @@ classdef (Abstract) PhysicalQuantityInterface
             catch ME, obj.throwWithoutAppStack(ME); end  
         end
         
-        % TODO: (Rody Oldenhuis) https://en.wikipedia.org/wiki/Hyperbolic_angle
+        % TODO: (Rody) https://en.wikipedia.org/wiki/Hyperbolic_angle
         % implement a HyperbolicAngle() class
                 
         % Same for the hyperbolic analogs
@@ -927,8 +942,8 @@ classdef (Abstract) PhysicalQuantityInterface
                                    multipliers,...
                                    exponents);
             
-        % Convert a given set of units of measurement, multipliers and powers
-        % into a pretty-print displayable string
+        % Convert a given set of units of measurement, multipliers and 
+        % powers into a pretty-print displayable string
         str = unitsToString(obj,...
                             units,...
                             multipliers,...
@@ -965,15 +980,20 @@ classdef (Abstract) PhysicalQuantityInterface
             end
             
             old_stack = ME.stack;
-            pth       = fileparts(ds(1).file);
-                        
+            pth       = fileparts(ds(1).file);                        
             keepers   = ~strncmp({old_stack.file}, pth,numel(pth));
             new_stack = old_stack(keepers);
-            
-            new_ME = struct('identifier', ME.identifier,...
-                            'message'   , ME.message,...
-                            'stack'     , new_stack);
-            rethrow(new_ME);
+                      
+            if ~isempty(new_stack)                
+                new_ME = struct('identifier', ME.identifier,...
+                                'message'   , ME.message,...
+                                'stack'     , new_stack);
+                rethrow(new_ME);
+            else
+                % Called from command line - there's no way anymore to chop
+                % off the top of the error stack ...
+                throwAsCaller(ME);
+            end
             
         end        
         
@@ -1014,13 +1034,13 @@ classdef (Abstract) PhysicalQuantityInterface
              Hidden,...
              Access = protected)
          
-         % Wrapper to get a quantity's dimensions, regardless of whether that
-         % quantity is an intermediate quantity or not
+         % Wrapper to get a quantity's dimensions, regardless of whether 
+         % that quantity is an intermediate quantity or not
          function dims = getDimensions(obj)
              if isa(obj, PhysicalQuantityInterface.genericclass)
-                 dims = obj.intermediate_dimensions;
+                 dims = obj(1).intermediate_dimensions;
              else
-                 dims = obj.dimensions;
+                 dims = obj(1).dimensions;
              end             
          end
         
@@ -1093,7 +1113,7 @@ function assert_both_are_compatible(this, that, op,prp, varargin)
 function [this,      that,...
           thisIsNum, thatIsNum,...
           thisIsPq,  thatIsPq] = assert_both_can_be_multiplied(this, that,...
-                                                                op,prp)
+                                                               op,prp)
      
     dl = PhysicalQuantityInterface.dimensionless;
     pq = mfilename;
