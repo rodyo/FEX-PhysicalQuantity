@@ -14,7 +14,10 @@ end
 % Utility funcion provides an easy means to write all the available length units
 % in a concise way
 function U = get_resistance_units()
-        
+    
+    % See:
+    % https://en.wikipedia.org/wiki/Category:Units_of_electrical_resistance
+    
     %    system             short      long       conversion factor (to Ohm)
     S = {SystemOfUnits.cgs  'statohm'  'statohm'  8.987551787e11 
          SystemOfUnits.cgs  'abohm'    'abohm'    1e-9          };
