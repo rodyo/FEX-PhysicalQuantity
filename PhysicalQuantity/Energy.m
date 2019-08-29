@@ -3,13 +3,13 @@ classdef Energy < PhysicalQuantityInterface
     properties (Constant)                   
         %                               L M  t C T I N ii
         dimensions = PhysicalDimension([2 1 -2 0 0 0 0 1]);
-        units      = []% TODO; J(oule), erg, etc.
+        units      = get_units('energy_units') 
     end 
     
     % Dummy constructor - needed until R2017b
     methods
         function obj = Energy(varargin)
-            obj = obj@PhysicalQuantityInterface(varargin{:}); end 
+            obj@PhysicalQuantityInterface(varargin{:}); end 
     end
     
     % rand() method - for things like rand(1,3,'Energy')
