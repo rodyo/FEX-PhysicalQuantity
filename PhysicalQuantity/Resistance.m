@@ -2,8 +2,8 @@ classdef Resistance < PhysicalQuantityInterface
     
     properties (Constant)                    
         %                               L M  t  C T I N ii
-        dimensions = PhysicalDimension([2 1 -3 -2 0 0 0 0]);        
-        units      = []% TODO: char(937),'Ohm'
+        dimensions = PhysicalDimension([2 1 -3 -2 0 0 0 0]);
+        units      = get_units('resistance_units');
     end 
     
     % Dummy constructor - needed until R2017b

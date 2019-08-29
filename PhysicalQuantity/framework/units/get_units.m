@@ -1,4 +1,4 @@
-function units = get_units(which_one)
+function varargout = get_units(which_one)
     
     % Instantiating the units may take some time, therefore, do it only once and
     % save as a persistent variable to improve upon performance. 
@@ -6,7 +6,7 @@ function units = get_units(which_one)
     persistent All_Units_Concatenated
     if isempty(All_Units)   
         
-        % TODO: (Rody Oldenhuis) file cache!!
+        % TODO: (Rody) file cache!!
         
         All_Units = struct(...
                            %{
@@ -16,6 +16,7 @@ function units = get_units(which_one)
                            'mass_units'               , MassUnits(),...
                            'time_units'               , TimeUnits(),...
                            'current_units'            , CurrentUnits(),...
+                           'resistance_units'         , ResistanceUnits(),...
                            'temperature_units'        , TemperatureUnits(),...
                            'luminous_intensity_units' , LuminousIntensityUnits(),...
                            'amount_of_substance_units', AmountOfSubstanceUnits(),...
@@ -43,8 +44,7 @@ function units = get_units(which_one)
     
     % No argument - print list and return 
     fn = fieldnames(All_Units);
-    if nargin == 0        
-        units = [];        
+    if nargin == 0                
         fprintf(1, 'Available units:\n%s',...
                 sprintf('  - %s\n', fn{:}));
         return; 
@@ -82,5 +82,7 @@ function units = get_units(which_one)
             % Simply index and return the result
             units = All_Units.(which_one);
     end
+    
+    varargout{1} = units;
     
 end
