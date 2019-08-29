@@ -108,7 +108,7 @@ function [converted_value,...
 % settings and always output in the requested units
 
                 % Find the first fraction for which the magnitude exceeds one
-                fracs = converted_value ./ (multipliers.^P(1));
+                fracs = converted_value ./ (multipliers.^abs(P(1)));
                 index = find(abs(fracs) >= 1, 1, 'first');
                 if isempty(index) 
                     index = numel(multipliers); end

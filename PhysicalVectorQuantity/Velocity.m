@@ -4,12 +4,10 @@ classdef Velocity < PhysicalVectorQuantity
         datatype = ?Speed
     end  
         
-    % Dummy constructor - needed until R2017b. If you're on a newer version
-    % than that, this whole methods block can be safely removed.
+    % Dummy constructor - needed until R2017b
     methods
         function obj = Velocity(varargin)
-            obj = obj@PhysicalVectorQuantity(varargin{:});
-        end        
+            obj = obj@PhysicalVectorQuantity(varargin{:}); end 
     end
     
 end
