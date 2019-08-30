@@ -2,8 +2,8 @@ classdef Inductance < PhysicalQuantityInterface
     
     properties (Constant)                    
         %                               L M  t  C T I N ii
-        dimensions = PhysicalDimension([2 1 -2 -2 0 0 0 0]);        
-        units      = []% TODO: 'Henry'
+        dimensions = PhysicalDimension([2 1 -2 -2 0 0 0 0])
+        units      = get_units('inductance_units')
     end 
     
     % Dummy constructor - needed until R2017b
@@ -15,7 +15,7 @@ classdef Inductance < PhysicalQuantityInterface
     % rand() method - for things like rand(1,3,'Inductance')
     methods (Static)
         function R = rand(varargin)
-            R = Inductance(rand(varargin{:}), 'kg*m^2/s^2/A^2'); end
+            R = Inductance(rand(varargin{:}), 'H'); end
     end
     
 end
