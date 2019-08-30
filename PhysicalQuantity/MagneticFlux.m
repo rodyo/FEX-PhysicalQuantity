@@ -3,7 +3,7 @@ classdef MagneticFlux < PhysicalQuantityInterface
     properties (Constant)                    
         %                               L M  t  C T I N ii
         dimensions = PhysicalDimension([2 1 -2 -1 0 0 0 0]);        
-        units      = []% TODO: 'Weber'
+        units      = get_units('magnetic_flux')
     end 
     
     % Dummy constructor - needed until R2017b
@@ -15,7 +15,7 @@ classdef MagneticFlux < PhysicalQuantityInterface
     % rand() method - for things like rand(1,3,'MagneticFlux')
     methods (Static)
         function R = rand(varargin)
-            R = MagneticFlux(rand(varargin{:}), 'kg*m^2/s^2/A'); end
+            R = MagneticFlux(rand(varargin{:}), 'Wb'); end
     end
             
 end
