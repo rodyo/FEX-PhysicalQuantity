@@ -7,9 +7,10 @@ classdef DerivedUnitOfMeasurement < BaseUnitOfMeasurement
     methods        
         function obj = DerivedUnitOfMeasurement(varargin)
             
-            % NOTE (Rody Oldenhuis): for some strange reason, MATLAB disallows using 
-            % 'obj' in any way before the call to the super (see below). This is why 
-            % the copy-constructor has to be implemented this awkwardly ...
+            % NOTE (Rody Oldenhuis): for some strange reason, MATLAB 
+            % disallows using 'obj' in any way before the call to the super 
+            % (see below). This is why the copy-constructor has to be 
+            % implemented this awkwardly ...
             
             ind_for_deletion   = [];
             conversion_to_base = [];
@@ -41,7 +42,8 @@ classdef DerivedUnitOfMeasurement < BaseUnitOfMeasurement
                         value     = values{ii};
 
                         switch lower(parameter)
-                            case {'conversion_to_base' 'conversion_to_base_unit'}
+                            case {'conversion_to_base'
+                                  'conversion_to_base_unit'}
                                 ind_for_deletion   = ii;
                                 conversion_to_base = value;
                         end

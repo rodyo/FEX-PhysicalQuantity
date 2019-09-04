@@ -3,13 +3,13 @@ classdef Density < PhysicalQuantityInterface
     properties (Constant)
         %                                L M t C T I N ii
         dimensions = PhysicalDimension([-3 1 0 0 0 0 0 0 ]);
-        units      = [] % TODO
+        units      = [] % <- density only uses derived units
     end
     
-    % Dummy constructor - needed until R2017b
+    % Dummy constructor - needed until R2017b    
     methods
         function obj = Density(varargin)
-            obj = obj@PhysicalQuantityInterface(varargin{:}); end
+            obj@PhysicalQuantityInterface(varargin{:}); end
     end
     
     % rand() method - for things like rand(1,3,'Density')

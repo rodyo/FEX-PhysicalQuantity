@@ -3,7 +3,7 @@ classdef (Enumeration) SystemOfUnits
         
         % The good stuff
         metric % best!
-        mks    % (same as metric. Allows one to define "metrics" that are never used in combination with multiupliers)
+        mks    % (same as metric. Allows one to define "metrics" that are never used in combination with multipliers)
         cgs    % ..meh
         
         % The other stuff

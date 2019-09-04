@@ -15,7 +15,7 @@ classdef Resistance < PhysicalQuantityInterface
     % rand() method - for things like rand(1,3,'Resistance')
     methods (Static)
         function R = rand(varargin)
-            R = Resistance(rand(varargin{:}), 'm^2*kg/s^3/A^2'); end
+            R = Resistance(rand(varargin{:}), 'Ohm'); end
     end
     
 end

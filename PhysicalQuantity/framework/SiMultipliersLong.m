@@ -24,10 +24,10 @@ classdef (Enumeration) SiMultipliersLong < double
 
     methods
         
-        % Convert to string. This is already implemented natively, however, we
-        % need to make a single exception. In MATLAB, you either don't implement 
-        % the char() method (automatic) or implement it for all enumerated 
-        % properties. So, we do that here:
+        % Convert to string. This is already implemented natively, however, 
+        % we need to make a single exception. In MATLAB, you either don't 
+        % implement the char() method (automatic) or implement it for all 
+        % enumerated properties. So, we do that here:
         function str = char(obj)
             switch (obj)
                 case SiMultipliersLong.zetta, str = 'zetta';
@@ -39,7 +39,7 @@ classdef (Enumeration) SiMultipliersLong < double
                 case SiMultipliersLong.kilo , str = 'kilo';
                 case SiMultipliersLong.hecto, str = 'hecto';
                 case SiMultipliersLong.deca , str = 'deca';
-                case SiMultipliersLong.none , str = '';    % <---- the exception
+                case SiMultipliersLong.none , str = ''; % <-- the exception
                 case SiMultipliersLong.deci , str = 'deci';
                 case SiMultipliersLong.centi, str = 'centi';
                 case SiMultipliersLong.milli, str = 'milli';

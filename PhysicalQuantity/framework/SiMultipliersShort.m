@@ -25,10 +25,10 @@ classdef (Enumeration) SiMultipliersShort < double
     
     methods
         
-        % Convert to string. This is already implemented natively, however, we
-        % need to make a single exception. In MATLAB, you either don't implement 
-        % the char() method (automatic) or implement it for all enumerated 
-        % properties. So, we do that here:
+        % Convert to string. This is already implemented natively, however, 
+        % we need to make a single exception. In MATLAB, you either don't 
+        % implement the char() method (automatic) or implement it for all 
+        % enumerated properties. So, we do that here:
         function str = char(obj)            
             switch (obj)
                 case SiMultipliersShort.Z   , str = 'Z';
@@ -40,12 +40,12 @@ classdef (Enumeration) SiMultipliersShort < double
                 case SiMultipliersShort.k   , str = 'k';
                 case SiMultipliersShort.h   , str = 'h';
                 case SiMultipliersShort.da  , str = 'da';
-                case SiMultipliersShort.none, str = '';   % <-------------------
+                case SiMultipliersShort.none, str = '';   % <--------------
                 case SiMultipliersShort.d   , str = 'd';
                 case SiMultipliersShort.c   , str = 'c';
                 case SiMultipliersShort.m   , str = 'm';
-                case SiMultipliersShort.u   , str = char(956); % <-------------- 
-                case SiMultipliersShort.mu  , str = char(956); % <-------------- 
+                case SiMultipliersShort.u   , str = char(956); % <---------
+                case SiMultipliersShort.mu  , str = char(956); % <---------
                 case SiMultipliersShort.n   , str = 'n';
                 case SiMultipliersShort.p   , str = 'p';
                 case SiMultipliersShort.f   , str = 'f';
