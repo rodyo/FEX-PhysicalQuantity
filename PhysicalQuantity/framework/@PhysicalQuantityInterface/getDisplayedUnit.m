@@ -61,14 +61,16 @@ function [converted_value,...
 
     % Everything else scales decadically
     else
-
         % Convert the quantity. This is tricky considering all the
         % multipliers and unit-exponents that may be included in the 
         % possible array of PhysicalQuantities:
         converted_value = converted_value / prod( [U.conversion_to_base] .^ P );
 
         % Get appropriate SI multiplier
-        multiplier = SiMultipliersLong.none;
+        multiplier = SiMultipliersShort.none;
+        if use_long_format
+            SiMultipliersLong.none; end            
+            
         if converted_value~=0 && isfinite(converted_value) && isequal(U(1).system, SystemOfUnits.metric)
 
             % Get multipler strings for short/long format
@@ -86,11 +88,21 @@ function [converted_value,...
                 multiplier = str(index);                         
 
             % Automatic multiplier detection 
+            %
+            % EXCEPTION: "kilogram" works a bit differently; although the
+            % rest of the implementation uses the "gram" as the base unit,
+            % this is technically incorrect. The only situation in which
+            % this is apparent is when creating a zero-valued Mass; this 
+            % has to display '0 kg', and not as '0 g'.
+%             elseif (obj.current_unit(1) == SiBaseUnit.M)
+%                 
+%                 % TODO: (Rody Oldenhuis) 
+                
             else
 
                 % Strip hecto/deca/deci/centi from list, unless asked for explicitly
                 if isempty(obj.given_multiplier(1)) || ...
-                        ~any(abs(log10(double(obj.given_multiplier(1))))==[1 2])
+                  ~any(abs(log10(double(obj.given_multiplier(1))))==[1 2])
 
                     % TODO (Rody Oldenhuis) make exceptions for liters etc. (hl is pretty common)
 
@@ -119,22 +131,6 @@ function [converted_value,...
 
             end
 
-        end
-
-        % EXCEPTION: "kilogram" works a bit differently; although the
-        % rest of the implementation uses the "gram" as the base unit,
-        % this is technically incorrect. The only situation in which
-        % this is apparent is when creating a zero-valued Mass; this has
-        % to display '0 kg', and not as '0 g'.
-        if converted_value==0 && ...
-                isa(obj, 'Mass') && ...
-                (obj.current_unit == SiBaseUnit.M)            
-
-            if use_long_format
-                multiplier = SiMultipliersLong.kilo;
-            else
-                multiplier = SiMultipliersShort.k;
-            end    
         end
 
         % Construct strings from units 

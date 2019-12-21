@@ -3,7 +3,7 @@ classdef MagneticFluxDensity < PhysicalQuantityInterface
     properties (Constant)                    
         %                               L M  t  C T I N ii
         dimensions = PhysicalDimension([0 1 -2 -1 0 0 0 0])
-        units      = get_units('magnetic_flux_density')
+        units      = get_units('magnetic_flux_density_units')
     end 
     
     % Dummy constructor - needed until R2017b

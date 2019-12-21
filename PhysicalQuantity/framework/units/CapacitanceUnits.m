@@ -15,8 +15,8 @@ end
 function U = get_capacitance_units()
     
     %    system symbol          Symbol  long        conversion factor (to Farad)
-    S = {SystemOfUnits.cgs      'abF'   'abfarad'   1e9
-         SystemOfUnits.cgs      'statF' 'statfarad' 1.1126e-12
+    S = {%SystemOfUnits.cgs      'abF'   'abfarad'   1e9         % TODO: (Rody) fails test; it's (rightfully) 
+         %SystemOfUnits.cgs      'statF' 'statfarad' 1.1126e-12  % marked as an incorrect SI multiplier...
          SystemOfUnits.imperial ''      'jar'       1.111e-9
          };
      

@@ -2,7 +2,7 @@ classdef SolidAngle < PhysicalQuantityInterface
 
     properties (Constant)        
         dimensions = PhysicalDimension([0 0 0 0 0 0 0 2]);
-        units      = get_units('solidangle_units') 
+        units      = get_units('solid_angle_units') 
     end
     
     

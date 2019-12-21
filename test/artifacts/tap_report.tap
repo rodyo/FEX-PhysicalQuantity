@@ -1,0 +1,498 @@
+TAP version 13
+1..139
+ok 1 - AngleTest/testAngleDegDisplayOk(deg=p__)
+ok 2 - AngleTest/testAngleDegDisplayOk(deg=deg)
+ok 3 - AngleTest/testAngleDegDisplayOk(deg=degrees)
+ok 4 - AngleTest/testAngleDisplayOkAndFunctional(deg=p__)
+ok 5 - AngleTest/testAngleDisplayOkAndFunctional(deg=deg)
+ok 6 - AngleTest/testAngleDisplayOkAndFunctional(deg=degrees)
+ok 7 - AngleTest/testAngleGradDisplayOk(grad=grad)
+ok 8 - AngleTest/testAngleGradDisplayOk(grad=gradian)
+ok 9 - AngleTest/testAngleGradDisplayOk(grad=gradians)
+ok 10 - AngleTest/testAngleGradDisplayOk(grad=gon)
+ok 11 - AngleTest/testAngleGradDisplayOk(grad=gons)
+ok 12 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=grad)
+ok 13 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gradian)
+ok 14 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gradians)
+ok 15 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gon)
+ok 16 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gons)
+ok 17 - AngleTest/testAngleFromDimensionlessPq(deg=p__)
+ok 18 - AngleTest/testAngleFromDimensionlessPq(deg=deg)
+ok 19 - AngleTest/testAngleFromDimensionlessPq(deg=degrees)
+ok 20 - AngleTest/testAngleFromIncorrectPq(deg=p__)
+ok 21 - AngleTest/testAngleFromIncorrectPq(deg=deg)
+ok 22 - AngleTest/testAngleFromIncorrectPq(deg=degrees)
+ok 23 - AngleTest/testInverseTrigGenerators(fcn=value1)
+ok 24 - AngleTest/testInverseTrigGenerators(fcn=value2)
+ok 25 - AngleTest/testInverseTrigGenerators(fcn=value3)
+ok 26 - AngleTest/testInverseTrigGenerators(fcn=value4)
+ok 27 - AngleTest/testInverseTrigGenerators(fcn=value5)
+ok 28 - AngleTest/testInverseTrigGenerators(fcn=value6)
+ok 29 - AngleTest/testAngleFromDeg(deg=p__)
+ok 30 - AngleTest/testAngleFromDeg(deg=deg)
+ok 31 - AngleTest/testAngleFromDeg(deg=degrees)
+ok 32 - AngleTest/testAngleFromGrad(grad=grad)
+ok 33 - AngleTest/testAngleFromGrad(grad=gradian)
+ok 34 - AngleTest/testAngleFromGrad(grad=gradians)
+ok 35 - AngleTest/testAngleFromGrad(grad=gon)
+ok 36 - AngleTest/testAngleFromGrad(grad=gons)
+ok 37 - AreaTest/testArea
+ok 38 - AreaTest/testAreaOtherUnit(unit=miles,factor=value1)
+ok 39 - AreaTest/testAreaOtherUnit(unit=mi,factor=value2)
+ok 40 - AreaTest/testAreaOtherUnit(unit=mile,factor=value3)
+ok 41 - AreaTest/testAreaOtherUnit(unit=km,factor=value4)
+ok 42 - AreaTest/testAreaOtherUnit(unit=mm,factor=value5)
+ok 43 - AreaTest/testAreaOtherUnit(unit=ly,factor=value6)
+ok 44 - AreaTest/testAreaOtherUnit(unit=p__,factor=value7)
+ok 45 - AreaTest/testAreaFromTwoLengths(unit=miles,factor=value1)
+ok 46 - AreaTest/testAreaFromTwoLengths(unit=mi,factor=value2)
+ok 47 - AreaTest/testAreaFromTwoLengths(unit=mile,factor=value3)
+ok 48 - AreaTest/testAreaFromTwoLengths(unit=km,factor=value4)
+ok 49 - AreaTest/testAreaFromTwoLengths(unit=mm,factor=value5)
+ok 50 - AreaTest/testAreaFromTwoLengths(unit=ly,factor=value6)
+ok 51 - AreaTest/testAreaFromTwoLengths(unit=p__,factor=value7)
+ok 52 - LengthTest/testLength5k
+ok 53 - LengthTest/testLength5miles
+ok 54 - LengthTest/testLengthShortnames(short_name=in,conversion_factor=value1)
+ok 55 - LengthTest/testLengthShortnames(short_name=ft,conversion_factor=value2)
+ok 56 - LengthTest/testLengthShortnames(short_name=yd,conversion_factor=value3)
+ok 57 - LengthTest/testLengthShortnames(short_name=fur,conversion_factor=value4)
+ok 58 - LengthTest/testLengthShortnames(short_name=mi,conversion_factor=value5)
+ok 59 - LengthTest/testLengthShortnames(short_name=n_mi,conversion_factor=value6)
+ok 60 - LengthTest/testLengthShortnames(short_name=st_mi,conversion_factor=value7)
+ok 61 - LengthTest/testLengthShortnames(short_name=li,conversion_factor=value8)
+ok 62 - LengthTest/testLengthShortnames(short_name=smt,conversion_factor=value9)
+ok 63 - LengthTest/testLengthShortnames(short_name=AU,conversion_factor=value10)
+ok 64 - LengthTest/testLengthShortnames(short_name=ly,conversion_factor=value11)
+ok 65 - LengthTest/testLengthShortnames(short_name=pc,conversion_factor=value12)
+ok 66 - LengthTest/testLengthShortnames(short_name=p__,conversion_factor=value13)
+ok 67 - LengthTest/testLengthShortnamePlurals(short_name_plural=in,conversion_factor=value1)
+ok 68 - LengthTest/testLengthShortnamePlurals(short_name_plural=ft,conversion_factor=value2)
+ok 69 - LengthTest/testLengthShortnamePlurals(short_name_plural=yd,conversion_factor=value3)
+ok 70 - LengthTest/testLengthShortnamePlurals(short_name_plural=fur,conversion_factor=value4)
+ok 71 - LengthTest/testLengthShortnamePlurals(short_name_plural=mi,conversion_factor=value5)
+ok 72 - LengthTest/testLengthShortnamePlurals(short_name_plural=n_mi,conversion_factor=value6)
+ok 73 - LengthTest/testLengthShortnamePlurals(short_name_plural=st_mi,conversion_factor=value7)
+ok 74 - LengthTest/testLengthShortnamePlurals(short_name_plural=li,conversion_factor=value8)
+ok 75 - LengthTest/testLengthShortnamePlurals(short_name_plural=smt,conversion_factor=value9)
+ok 76 - LengthTest/testLengthShortnamePlurals(short_name_plural=AU,conversion_factor=value10)
+ok 77 - LengthTest/testLengthShortnamePlurals(short_name_plural=ly,conversion_factor=value11)
+ok 78 - LengthTest/testLengthShortnamePlurals(short_name_plural=pc,conversion_factor=value12)
+ok 79 - LengthTest/testLengthShortnamePlurals(short_name_plural=p__,conversion_factor=value13)
+ok 80 - LengthTest/testLengthLongnames(long_name=inch,conversion_factor=value1)
+ok 81 - LengthTest/testLengthLongnames(long_name=foot,conversion_factor=value2)
+ok 82 - LengthTest/testLengthLongnames(long_name=yard,conversion_factor=value3)
+ok 83 - LengthTest/testLengthLongnames(long_name=furlong,conversion_factor=value4)
+ok 84 - LengthTest/testLengthLongnames(long_name=mile,conversion_factor=value5)
+ok 85 - LengthTest/testLengthLongnames(long_name=nauticalMile,conversion_factor=value6)
+ok 86 - LengthTest/testLengthLongnames(long_name=statuteMile,conversion_factor=value7)
+ok 87 - LengthTest/testLengthLongnames(long_name=ChineseMile,conversion_factor=value8)
+ok 88 - LengthTest/testLengthLongnames(long_name=smoot,conversion_factor=value9)
+ok 89 - LengthTest/testLengthLongnames(long_name=astronomicalUnit,conversion_factor=value10)
+ok 90 - LengthTest/testLengthLongnames(long_name=lightyear,conversion_factor=value11)
+ok 91 - LengthTest/testLengthLongnames(long_name=Parsec,conversion_factor=value12)
+ok 92 - LengthTest/testLengthLongnames(long_name=p__ngstr_m,conversion_factor=value13)
+not ok 93 - MalFormedIoTest/[type=jenkins]testIncorrectAdditionSubtraction
+    ---
+    Event:
+        Event Name: 'ExceptionThrown'
+        Event Location: 'MalFormedIoTest/[type=jenkins]testIncorrectAdditionSubtraction'
+        Error Identifier: 'MATLAB:scriptNotAFunction'
+        Error Report: |
+            Attempt to execute SCRIPT jenkins as a function:
+            C:\Repos\personal\FEX\PhysicalQuantity\test\jenkins.m
+            
+            Error in MalFormedIoTest/setConstructor (line 35)
+                        tst.pq_instance    = tst.pq_constructor();
+        Stack: |
+            In C:\Repos\personal\FEX\PhysicalQuantity\test\PhysicalQuantity\MalFormedIoTest.m (MalFormedIoTest.setConstructor) at 35
+    ...
+not ok 94 - MalFormedIoTest/[type=jenkins]testIncorrectMultiplicationDivision
+    ---
+    Event:
+        Event Name: 'ExceptionThrown'
+        Event Location: 'MalFormedIoTest/[type=jenkins]testIncorrectMultiplicationDivision'
+        Error Identifier: 'MATLAB:scriptNotAFunction'
+        Error Report: |
+            Attempt to execute SCRIPT jenkins as a function:
+            C:\Repos\personal\FEX\PhysicalQuantity\test\jenkins.m
+            
+            Error in MalFormedIoTest/setConstructor (line 35)
+                        tst.pq_instance    = tst.pq_constructor();
+        Stack: |
+            In C:\Repos\personal\FEX\PhysicalQuantity\test\PhysicalQuantity\MalFormedIoTest.m (MalFormedIoTest.setConstructor) at 35
+    ...
+not ok 95 - MalFormedIoTest/[type=jenkins]testIncorrectNormAbs
+    ---
+    Event:
+        Event Name: 'ExceptionThrown'
+        Event Location: 'MalFormedIoTest/[type=jenkins]testIncorrectNormAbs'
+        Error Identifier: 'MATLAB:scriptNotAFunction'
+        Error Report: |
+            Attempt to execute SCRIPT jenkins as a function:
+            C:\Repos\personal\FEX\PhysicalQuantity\test\jenkins.m
+            
+            Error in MalFormedIoTest/setConstructor (line 35)
+                        tst.pq_instance    = tst.pq_constructor();
+        Stack: |
+            In C:\Repos\personal\FEX\PhysicalQuantity\test\PhysicalQuantity\MalFormedIoTest.m (MalFormedIoTest.setConstructor) at 35
+    ...
+not ok 96 - MalFormedIoTest/[type=jenkins]testWithoutUnit
+    ---
+    Event:
+        Event Name: 'ExceptionThrown'
+        Event Location: 'MalFormedIoTest/[type=jenkins]testWithoutUnit'
+        Error Identifier: 'MATLAB:scriptNotAFunction'
+        Error Report: |
+            Attempt to execute SCRIPT jenkins as a function:
+            C:\Repos\personal\FEX\PhysicalQuantity\test\jenkins.m
+            
+            Error in MalFormedIoTest/setConstructor (line 35)
+                        tst.pq_instance    = tst.pq_constructor();
+        Stack: |
+            In C:\Repos\personal\FEX\PhysicalQuantity\test\PhysicalQuantity\MalFormedIoTest.m (MalFormedIoTest.setConstructor) at 35
+    ...
+not ok 97 - MalFormedIoTest/[type=jenkins]testTrigError
+    ---
+    Event:
+        Event Name: 'ExceptionThrown'
+        Event Location: 'MalFormedIoTest/[type=jenkins]testTrigError'
+        Error Identifier: 'MATLAB:scriptNotAFunction'
+        Error Report: |
+            Attempt to execute SCRIPT jenkins as a function:
+            C:\Repos\personal\FEX\PhysicalQuantity\test\jenkins.m
+            
+            Error in MalFormedIoTest/setConstructor (line 35)
+                        tst.pq_instance    = tst.pq_constructor();
+        Stack: |
+            In C:\Repos\personal\FEX\PhysicalQuantity\test\PhysicalQuantity\MalFormedIoTest.m (MalFormedIoTest.setConstructor) at 35
+    ...
+not ok 98 - MalFormedIoTest/[type=jenkins]testPvPairsError
+    ---
+    Event:
+        Event Name: 'ExceptionThrown'
+        Event Location: 'MalFormedIoTest/[type=jenkins]testPvPairsError'
+        Error Identifier: 'MATLAB:scriptNotAFunction'
+        Error Report: |
+            Attempt to execute SCRIPT jenkins as a function:
+            C:\Repos\personal\FEX\PhysicalQuantity\test\jenkins.m
+            
+            Error in MalFormedIoTest/setConstructor (line 35)
+                        tst.pq_instance    = tst.pq_constructor();
+        Stack: |
+            In C:\Repos\personal\FEX\PhysicalQuantity\test\PhysicalQuantity\MalFormedIoTest.m (MalFormedIoTest.setConstructor) at 35
+    ...
+not ok 99 - MalFormedIoTest/[type=jenkins]testIncorrectDisplayFormat
+    ---
+    Event:
+        Event Name: 'ExceptionThrown'
+        Event Location: 'MalFormedIoTest/[type=jenkins]testIncorrectDisplayFormat'
+        Error Identifier: 'MATLAB:scriptNotAFunction'
+        Error Report: |
+            Attempt to execute SCRIPT jenkins as a function:
+            C:\Repos\personal\FEX\PhysicalQuantity\test\jenkins.m
+            
+            Error in MalFormedIoTest/setConstructor (line 35)
+                        tst.pq_instance    = tst.pq_constructor();
+        Stack: |
+            In C:\Repos\personal\FEX\PhysicalQuantity\test\PhysicalQuantity\MalFormedIoTest.m (MalFormedIoTest.setConstructor) at 35
+    ...
+ok 100 - MalFormedIoTest/[type=run_all_tests]testIncorrectAdditionSubtraction
+TAP version 13
+1..1139
+ok 1 - AngleTest/testAngleDegDisplayOk(deg=p__)
+ok 2 - AngleTest/testAngleDegDisplayOk(deg=deg)
+ok 3 - AngleTest/testAngleDegDisplayOk(deg=degrees)
+ok 4 - AngleTest/testAngleDisplayOkAndFunctional(deg=p__)
+ok 5 - AngleTest/testAngleDisplayOkAndFunctional(deg=deg)
+ok 6 - AngleTest/testAngleDisplayOkAndFunctional(deg=degrees)
+ok 7 - AngleTest/testAngleGradDisplayOk(grad=grad)
+ok 8 - AngleTest/testAngleGradDisplayOk(grad=gradian)
+ok 9 - AngleTest/testAngleGradDisplayOk(grad=gradians)
+ok 10 - AngleTest/testAngleGradDisplayOk(grad=gon)
+ok 11 - AngleTest/testAngleGradDisplayOk(grad=gons)
+ok 12 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=grad)
+ok 13 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gradian)
+ok 14 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gradians)
+ok 15 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gon)
+ok 16 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gons)
+ok 17 - AngleTest/testAngleFromDimensionlessPq(deg=p__)
+ok 18 - AngleTest/testAngleFromDimensionlessPq(deg=deg)
+ok 19 - AngleTest/testAngleFromDimensionlessPq(deg=degrees)
+ok 20 - AngleTest/testAngleFromIncorrectPq(deg=p__)
+ok 21 - AngleTest/testAngleFromIncorrectPq(deg=deg)
+ok 22 - AngleTest/testAngleFromIncorrectPq(deg=degrees)
+ok 23 - AngleTest/testInverseTrigGenerators(fcn=value1)
+ok 24 - AngleTest/testInverseTrigGenerators(fcn=value2)
+ok 25 - AngleTest/testInverseTrigGenerators(fcn=value3)
+ok 26 - AngleTest/testInverseTrigGenerators(fcn=value4)
+ok 27 - AngleTest/testInverseTrigGenerators(fcn=value5)
+ok 28 - AngleTest/testInverseTrigGenerators(fcn=value6)
+ok 29 - AngleTest/testAngleFromDeg(deg=p__)
+ok 30 - AngleTest/testAngleFromDeg(deg=deg)
+ok 31 - AngleTest/testAngleFromDeg(deg=degrees)
+ok 32 - AngleTest/testAngleFromGrad(grad=grad)
+ok 33 - AngleTest/testAngleFromGrad(grad=gradian)
+ok 34 - AngleTest/testAngleFromGrad(grad=gradians)
+ok 35 - AngleTest/testAngleFromGrad(grad=gon)
+ok 36 - AngleTest/testAngleFromGrad(grad=gons)
+ok 37 - AreaTest/testArea
+ok 38 - AreaTest/testAreaOtherUnit(unit=miles,factor=value1)
+ok 39 - AreaTest/testAreaOtherUnit(unit=mi,factor=value2)
+ok 40 - AreaTest/testAreaOtherUnit(unit=mile,factor=value3)
+ok 41 - AreaTest/testAreaOtherUnit(unit=km,factor=value4)
+ok 42 - AreaTest/testAreaOtherUnit(unit=mm,factor=value5)
+ok 43 - AreaTest/testAreaOtherUnit(unit=ly,factor=value6)
+ok 44 - AreaTest/testAreaOtherUnit(unit=p__,factor=value7)
+ok 45 - AreaTest/testAreaFromTwoLengths(unit=miles,factor=value1)
+ok 46 - AreaTest/testAreaFromTwoLengths(unit=mi,factor=value2)
+ok 47 - AreaTest/testAreaFromTwoLengths(unit=mile,factor=value3)
+ok 48 - AreaTest/testAreaFromTwoLengths(unit=km,factor=value4)
+ok 49 - AreaTest/testAreaFromTwoLengths(unit=mm,factor=value5)
+ok 50 - AreaTest/testAreaFromTwoLengths(unit=ly,factor=value6)
+ok 51 - AreaTest/testAreaFromTwoLengths(unit=p__,factor=value7)
+ok 52 - LengthTest/testLength5k
+ok 53 - LengthTest/testLength5miles
+ok 54 - LengthTest/testLengthShortnames(short_name=in,conversion_factor=value1)
+ok 55 - LengthTest/testLengthShortnames(short_name=ft,conversion_factor=value2)
+ok 56 - LengthTest/testLengthShortnames(short_name=yd,conversion_factor=value3)
+ok 57 - LengthTest/testLengthShortnames(short_name=fur,conversion_factor=value4)
+ok 58 - LengthTest/testLengthShortnames(short_name=mi,conversion_factor=value5)
+ok 59 - LengthTest/testLengthShortnames(short_name=n_mi,conversion_factor=value6)
+ok 60 - LengthTest/testLengthShortnames(short_name=st_mi,conversion_factor=value7)
+ok 61 - LengthTest/testLengthShortnames(short_name=li,conversion_factor=value8)
+ok 62 - LengthTest/testLengthShortnames(short_name=smt,conversion_factor=value9)
+ok 63 - LengthTest/testLengthShortnames(short_name=AU,conversion_factor=value10)
+ok 64 - LengthTest/testLengthShortnames(short_name=ly,conversion_factor=value11)
+ok 65 - LengthTest/testLengthShortnames(short_name=pc,conversion_factor=value12)
+ok 66 - LengthTest/testLengthShortnames(short_name=p__,conversion_factor=value13)
+ok 67 - LengthTest/testLengthShortnamePlurals(short_name_plural=in,conversion_factor=value1)
+ok 68 - LengthTest/testLengthShortnamePlurals(short_name_plural=ft,conversion_factor=value2)
+ok 69 - LengthTest/testLengthShortnamePlurals(short_name_plural=yd,conversion_factor=value3)
+ok 70 - LengthTest/testLengthShortnamePlurals(short_name_plural=fur,conversion_factor=value4)
+ok 71 - LengthTest/testLengthShortnamePlurals(short_name_plural=mi,conversion_factor=value5)
+ok 72 - LengthTest/testLengthShortnamePlurals(short_name_plural=n_mi,conversion_factor=value6)
+ok 73 - LengthTest/testLengthShortnamePlurals(short_name_plural=st_mi,conversion_factor=value7)
+ok 74 - LengthTest/testLengthShortnamePlurals(short_name_plural=li,conversion_factor=value8)
+ok 75 - LengthTest/testLengthShortnamePlurals(short_name_plural=smt,conversion_factor=value9)
+ok 76 - LengthTest/testLengthShortnamePlurals(short_name_plural=AU,conversion_factor=value10)
+ok 77 - LengthTest/testLengthShortnamePlurals(short_name_plural=ly,conversion_factor=value11)
+ok 78 - LengthTest/testLengthShortnamePlurals(short_name_plural=pc,conversion_factor=value12)
+ok 79 - LengthTest/testLengthShortnamePlurals(short_name_plural=p__,conversion_factor=value13)
+ok 80 - LengthTest/testLengthLongnames(long_name=inch,conversion_factor=value1)
+ok 81 - LengthTest/testLengthLongnames(long_name=foot,conversion_factor=value2)
+ok 82 - LengthTest/testLengthLongnames(long_name=yard,conversion_factor=value3)
+ok 83 - LengthTest/testLengthLongnames(long_name=furlong,conversion_factor=value4)
+ok 84 - LengthTest/testLengthLongnames(long_name=mile,conversion_factor=value5)
+ok 85 - LengthTest/testLengthLongnames(long_name=nauticalMile,conversion_factor=value6)
+ok 86 - LengthTest/testLengthLongnames(long_name=statuteMile,conversion_factor=value7)
+ok 87 - LengthTest/testLengthLongnames(long_name=ChineseMile,conversion_factor=value8)
+ok 88 - LengthTest/testLengthLongnames(long_name=smoot,conversion_factor=value9)
+ok 89 - LengthTest/testLengthLongnames(long_name=astronomicalUnit,conversion_factor=value10)
+ok 90 - LengthTest/testLengthLongnames(long_name=lightyear,conversion_factor=value11)
+ok 91 - LengthTest/testLengthLongnames(long_name=Parsec,conversion_factor=value12)
+ok 92 - LengthTest/testLengthLongnames(long_name=p__ngstr_m,conversion_factor=value13)
+ok 93 - MalFormedIoTest/[type=Acceleration]testIncorrectAdditionSubtraction
+ok 94 - MalFormedIoTest/[type=Acceleration]testIncorrectMultiplicationDivision
+ok 95 - MalFormedIoTest/[type=Acceleration]testIncorrectNormAbs
+ok 96 - MalFormedIoTest/[type=Acceleration]testWithoutUnit
+ok 97 - MalFormedIoTest/[type=Acceleration]testTrigError
+ok 98 - MalFormedIoTest/[type=Acceleration]testPvPairsError
+ok 99 - MalFormedIoTest/[type=Acceleration]testIncorrectDisplayFormat
+ok 100 - MalFormedIoTest/[type=Admittance]testIncorrectAdditionSubtraction
+ok 101 - MalFormedIoTest/[type=Admittance]testIncorrectMultiplicationDivision
+ok 102 - MalFormedIoTest/[type=Admittance]testIncorrectNormAbs
+ok 103 - MalFormedIoTest/[type=Admittance]testWithoutUnit
+ok 104 - MalFormedIoTest/[type=Admittance]testTrigError
+ok 105 - MalFormedIoTest/[type=Admittance]testPvPairsError
+ok 106 - MalFormedIoTest/[type=Admittance]testIncorrectDisplayFormat
+ok 107 - MalFormedIoTest/[type=AmountOfSubstance]testIncorrectAdditionSubtraction
+ok 108 - MalFormedIoTest/[type=AmountOfSubstance]testIncorrectMultiplicationDivision
+ok 109 - MalFormedIoTest/[type=AmountOfSubstance]testIncorrectNormAbs
+ok 110 - MalFormedIoTest/[type=AmountOfSubstance]testWithoutUnit
+ok 111 - MalFormedIoTest/[type=AmountOfSubstance]testTrigError
+ok 112 - MalFormedIoTest/[type=AmountOfSubstance]testPvPairsError
+ok 113 - MalFormedIoTest/[type=AmountOfSubstance]testIncorrectDisplayFormat
+ok 114 - MalFormedIoTest/[type=Angle]testIncorrectAdditionSubtraction
+ok 115 - MalFormedIoTest/[type=Angle]testIncorrectMultiplicationDivision
+ok 116 - MalFormedIoTest/[type=Angle]testIncorrectNormAbs
+ok 117 - MalFormedIoTest/[type=Angle]testWithoutUnit
+ok 118 - MalFormedIoTest/[type=Angle]testTrigError
+ok 119 - MalFormedIoTest/[type=Angle]testPvPairsError
+ok 120 - MalFormedIoTest/[type=Angle]testIncorrectDisplayFormat
+ok 121 - MalFormedIoTest/[type=AngularAcceleration]testIncorrectAdditionSubtraction
+ok 122 - MalFormedIoTest/[type=AngularAcceleration]testIncorrectMultiplicationDivision
+ok 123 - MalFormedIoTest/[type=AngularAcceleration]testIncorrectNormAbs
+ok 124 - MalFormedIoTest/[type=AngularAcceleration]testWithoutUnit
+ok 125 - MalFormedIoTest/[type=AngularAcceleration]testTrigError
+ok 126 - MalFormedIoTest/[type=AngularAcceleration]testPvPairsError
+ok 127 - MalFormedIoTest/[type=AngularAcceleration]testIncorrectDisplayFormat
+ok 128 - MalFormedIoTest/[type=AngularMomentum]testIncorrectAdditionSubtraction
+ok 129 - MalFormedIoTest/[type=AngularMomentum]testIncorrectMultiplicationDivision
+ok 130 - MalFormedIoTest/[type=AngularMomentum]testIncorrectNormAbs
+ok 131 - MalFormedIoTest/[type=AngularMomentum]testWithoutUnit
+ok 132 - MalFormedIoTest/[type=AngularMomentum]testTrigError
+ok 133 - MalFormedIoTest/[type=AngularMomentum]testPvPairsError
+ok 134 - MalFormedIoTest/[type=AngularMomentum]testIncorrectDisplayFormat
+ok 135 - MalFormedIoTest/[type=AngularSpeed]testIncorrectAdditionSubtraction
+ok 136 - MalFormedIoTest/[type=AngularSpeed]testIncorrectMultiplicationDivision
+ok 137 - MalFormedIoTest/[type=AngularSpeed]testIncorrectNormAbs
+ok 138 - MalFormedIoTest/[type=AngularSpeed]testWithoutUnit
+ok 139 - MalFormedIoTest/[type=AngularSpeed]testTrigError
+ok 140 - MalFormedIoTest/[type=AngularSpeed]testPvPairsError
+ok 141 - MalFormedIoTest/[type=AngularSpeed]testIncorrectDisplayFormat
+ok 142 - MalFormedIoTest/[type=Area]testIncorrectAdditionSubtraction
+ok 143 - MalFormedIoTest/[type=Area]testIncorrectMultiplicationDivision
+ok 144 - MalFormedIoTest/[type=Area]testIncorrectNormAbs
+ok 145 - MalFormedIoTest/[type=Area]testWithoutUnit
+ok 146 - MalFormedIoTest/[type=Area]testTrigError
+ok 147 - MalFormedIoTest/[type=Area]testPvPairsError
+ok 148 - MalFormedIoTest/[type=Area]testIncorrectDisplayFormat
+ok 149 - MalFormedIoTest/[type=Capacitance]testIncorrectAdditionSubtraction
+ok 150 - MalFormedIoTest/[type=Capacitance]testIncorrectMultiplicationDivision
+ok 151 - MalFormedIoTest/[type=Capacitance]testIncorrectNormAbs
+ok 152 - MalFormedIoTest/[type=Capacitance]testWithoutUnit
+ok 153 - MalFormedIoTest/[type=Capacitance]testTrigError
+ok 154 - MalFormedIoTest/[type=Capacitance]testPvPairsError
+ok 155 - MalFormedIoTest/[type=Capacitance]testIncorrectDisplayFormat
+ok 156 - MalFormedIoTest/[type=Charge]testIncorrectAdditionSubtraction
+ok 157 - MalFormedIoTest/[type=Charge]testIncorrectMultiplicationDivision
+ok 158 - MalFormedIoTest/[type=Charge]testIncorrectNormAbs
+ok 159 - MalFormedIoTest/[type=Charge]testWithoutUnit
+ok 160 - MalFormedIoTest/[type=Charge]testTrigError
+ok 161 - MalFormedIoTest/[type=Charge]testPvPairsError
+ok 162 - MalFormedIoTest/[type=Charge]testIncorrectDisplayFormat
+ok 163 - MalFormedIoTest/[type=Conductance]testIncorrectAdditionSubtraction
+ok 164 - MalFormedIoTest/[type=Conductance]testIncorrectMultiplicationDivision
+ok 165 - MalFormedIoTest/[type=Conductance]testIncorrectNormAbs
+ok 166 - MalFormedIoTest/[type=Conductance]testWithoutUnit
+ok 167 - MalFormedIoTest/[type=Conductance]testTrigError
+ok 168 - MalFormedIoTest/[type=Conductance]testPvPairsError
+ok 169 - MalFormedIoTest/[type=Conductance]testIncorrectDisplayFormat
+ok 170 - MalFormedIoTest/[type=Crackle]testIncorrectAdditionSubtraction
+ok 171 - MalFormedIoTest/[type=Crackle]testIncorrectMultiplicationDivision
+ok 172 - MalFormedIoTest/[type=Crackle]testIncorrectNormAbs
+ok 173 - MalFormedIoTest/[type=Crackle]testWithoutUnit
+ok 174 - MalFormedIoTest/[type=Crackle]testTrigError
+ok 175 - MalFormedIoTest/[type=Crackle]testPvPairsError
+ok 176 - MalFormedIoTest/[type=Crackle]testIncorrectDisplayFormat
+ok 177 - MalFormedIoTest/[type=Current]testIncorrectAdditionSubtraction
+ok 178 - MalFormedIoTest/[type=Current]testIncorrectMultiplicationDivision
+ok 179 - MalFormedIoTest/[type=Current]testIncorrectNormAbs
+ok 180 - MalFormedIoTest/[type=Current]testWithoutUnit
+ok 181 - MalFormedIoTest/[type=Current]testTrigError
+ok 182 - MalFormedIoTest/[type=Current]testPvPairsError
+ok 183 - MalFormedIoTest/[type=Current]testIncorrectDisplayFormat
+ok 184 - MalFormedIoTest/[type=Density]testIncorrectAdditionSubtraction
+ok 185 - MalFormedIoTest/[type=Density]testIncorrectMultiplicationDivision
+ok 186 - MalFormedIoTest/[type=Density]testIncorrectNormAbs
+TAP version 13
+1..1199
+ok 1 - AngleTest/testAngleDegDisplayOk(deg=p__)
+ok 2 - AngleTest/testAngleDegDisplayOk(deg=deg)
+ok 3 - AngleTest/testAngleDegDisplayOk(deg=degrees)
+ok 4 - AngleTest/testAngleDisplayOkAndFunctional(deg=p__)
+ok 5 - AngleTest/testAngleDisplayOkAndFunctional(deg=deg)
+ok 6 - AngleTest/testAngleDisplayOkAndFunctional(deg=degrees)
+ok 7 - AngleTest/testAngleGradDisplayOk(grad=grad)
+ok 8 - AngleTest/testAngleGradDisplayOk(grad=gradian)
+ok 9 - AngleTest/testAngleGradDisplayOk(grad=gradians)
+ok 10 - AngleTest/testAngleGradDisplayOk(grad=gon)
+ok 11 - AngleTest/testAngleGradDisplayOk(grad=gons)
+ok 12 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=grad)
+ok 13 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gradian)
+ok 14 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gradians)
+ok 15 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gon)
+ok 16 - AngleTest/testAngleGradDisplayOkAndFunctional(grad=gons)
+ok 17 - AngleTest/testAngleFromDimensionlessPq(deg=p__)
+ok 18 - AngleTest/testAngleFromDimensionlessPq(deg=deg)
+ok 19 - AngleTest/testAngleFromDimensionlessPq(deg=degrees)
+ok 20 - AngleTest/testAngleFromIncorrectPq(deg=p__)
+ok 21 - AngleTest/testAngleFromIncorrectPq(deg=deg)
+ok 22 - AngleTest/testAngleFromIncorrectPq(deg=degrees)
+ok 23 - AngleTest/testInverseTrigGenerators(fcn=value1)
+ok 24 - AngleTest/testInverseTrigGenerators(fcn=value2)
+ok 25 - AngleTest/testInverseTrigGenerators(fcn=value3)
+ok 26 - AngleTest/testInverseTrigGenerators(fcn=value4)
+ok 27 - AngleTest/testInverseTrigGenerators(fcn=value5)
+ok 28 - AngleTest/testInverseTrigGenerators(fcn=value6)
+ok 29 - AngleTest/testAngleFromDeg(deg=p__)
+ok 30 - AngleTest/testAngleFromDeg(deg=deg)
+ok 31 - AngleTest/testAngleFromDeg(deg=degrees)
+ok 32 - AngleTest/testAngleFromGrad(grad=grad)
+ok 33 - AngleTest/testAngleFromGrad(grad=gradian)
+ok 34 - AngleTest/testAngleFromGrad(grad=gradians)
+ok 35 - AngleTest/testAngleFromGrad(grad=gon)
+ok 36 - AngleTest/testAngleFromGrad(grad=gons)
+ok 37 - AreaTest/testArea
+ok 38 - AreaTest/testAreaOtherUnit(unit=miles,factor=value1)
+ok 39 - AreaTest/testAreaOtherUnit(unit=mi,factor=value2)
+ok 40 - AreaTest/testAreaOtherUnit(unit=mile,factor=value3)
+ok 41 - AreaTest/testAreaOtherUnit(unit=km,factor=value4)
+ok 42 - AreaTest/testAreaOtherUnit(unit=mm,factor=value5)
+ok 43 - AreaTest/testAreaOtherUnit(unit=ly,factor=value6)
+ok 44 - AreaTest/testAreaOtherUnit(unit=p__,factor=value7)
+ok 45 - AreaTest/testAreaFromTwoLengths(unit=miles,factor=value1)
+ok 46 - AreaTest/testAreaFromTwoLengths(unit=mi,factor=value2)
+ok 47 - AreaTest/testAreaFromTwoLengths(unit=mile,factor=value3)
+ok 48 - AreaTest/testAreaFromTwoLengths(unit=km,factor=value4)
+ok 49 - AreaTest/testAreaFromTwoLengths(unit=mm,factor=value5)
+ok 50 - AreaTest/testAreaFromTwoLengths(unit=ly,factor=value6)
+ok 51 - AreaTest/testAreaFromTwoLengths(unit=p__,factor=value7)
+ok 52 - ForceTest/testForce1N
+ok 53 - ForceTest/testForceShortnames(short_name=dyn,conversion_factor=value1)
+ok 54 - ForceTest/testForceShortnames(short_name=kp,conversion_factor=value2)
+ok 55 - ForceTest/testForceShortnames(short_name=kgf,conversion_factor=value3)
+ok 56 - ForceTest/testForceShortnames(short_name=lbf,conversion_factor=value4)
+ok 57 - ForceTest/testForceShortnames(short_name=pdl,conversion_factor=value5)
+ok 58 - ForceTest/testForceShortnamePlurals(short_name_plural=dyn,conversion_factor=value1)
+ok 59 - ForceTest/testForceShortnamePlurals(short_name_plural=kp,conversion_factor=value2)
+ok 60 - ForceTest/testForceShortnamePlurals(short_name_plural=kgf,conversion_factor=value3)
+ok 61 - ForceTest/testForceShortnamePlurals(short_name_plural=lbf,conversion_factor=value4)
+ok 62 - ForceTest/testForceShortnamePlurals(short_name_plural=pdl,conversion_factor=value5)
+ok 63 - ForceTest/testForceLongnames(long_name=dyne,conversion_factor=value1)
+ok 64 - ForceTest/testForceLongnames(long_name=kilopond,conversion_factor=value2)
+ok 65 - ForceTest/testForceLongnames(long_name=kilogram_force,conversion_factor=value3)
+ok 66 - ForceTest/testForceLongnames(long_name=pound_force,conversion_factor=value4)
+ok 67 - ForceTest/testForceLongnames(long_name=poundal,conversion_factor=value5)
+ok 68 - LengthTest/testLength5k
+ok 69 - LengthTest/testLength5miles
+ok 70 - LengthTest/testLengthShortnames(short_name=in,conversion_factor=value1)
+ok 71 - LengthTest/testLengthShortnames(short_name=ft,conversion_factor=value2)
+ok 72 - LengthTest/testLengthShortnames(short_name=yd,conversion_factor=value3)
+ok 73 - LengthTest/testLengthShortnames(short_name=fur,conversion_factor=value4)
+ok 74 - LengthTest/testLengthShortnames(short_name=mi,conversion_factor=value5)
+ok 75 - LengthTest/testLengthShortnames(short_name=n_mi,conversion_factor=value6)
+ok 76 - LengthTest/testLengthShortnames(short_name=st_mi,conversion_factor=value7)
+ok 77 - LengthTest/testLengthShortnames(short_name=li,conversion_factor=value8)
+ok 78 - LengthTest/testLengthShortnames(short_name=smt,conversion_factor=value9)
+ok 79 - LengthTest/testLengthShortnames(short_name=AU,conversion_factor=value10)
+ok 80 - LengthTest/testLengthShortnames(short_name=ly,conversion_factor=value11)
+ok 81 - LengthTest/testLengthShortnames(short_name=pc,conversion_factor=value12)
+ok 82 - LengthTest/testLengthShortnames(short_name=p__,conversion_factor=value13)
+ok 83 - LengthTest/testLengthShortnamePlurals(short_name_plural=in,conversion_factor=value1)
+ok 84 - LengthTest/testLengthShortnamePlurals(short_name_plural=ft,conversion_factor=value2)
+ok 85 - LengthTest/testLengthShortnamePlurals(short_name_plural=yd,conversion_factor=value3)
+ok 86 - LengthTest/testLengthShortnamePlurals(short_name_plural=fur,conversion_factor=value4)
+ok 87 - LengthTest/testLengthShortnamePlurals(short_name_plural=mi,conversion_factor=value5)
+ok 88 - LengthTest/testLengthShortnamePlurals(short_name_plural=n_mi,conversion_factor=value6)
+ok 89 - LengthTest/testLengthShortnamePlurals(short_name_plural=st_mi,conversion_factor=value7)
+ok 90 - LengthTest/testLengthShortnamePlurals(short_name_plural=li,conversion_factor=value8)
+ok 91 - LengthTest/testLengthShortnamePlurals(short_name_plural=smt,conversion_factor=value9)
+ok 92 - LengthTest/testLengthShortnamePlurals(short_name_plural=AU,conversion_factor=value10)
+ok 93 - LengthTest/testLengthShortnamePlurals(short_name_plural=ly,conversion_factor=value11)
+ok 94 - LengthTest/testLengthShortnamePlurals(short_name_plural=pc,conversion_factor=value12)
+ok 95 - LengthTest/testLengthShortnamePlurals(short_name_plural=p__,conversion_factor=value13)
+ok 96 - LengthTest/testLengthLongnames(long_name=inch,conversion_factor=value1)
+ok 97 - LengthTest/testLengthLongnames(long_name=foot,conversion_factor=value2)
+ok 98 - LengthTest/testLengthLongnames(long_name=yard,conversion_factor=value3)
+ok 99 - LengthTest/testLengthLongnames(long_name=furlong,conversion_factor=value4)
+ok 100 - LengthTest/testLengthLongnames(long_name=mile,conversion_factor=value5)
+ok 101 - LengthTest/testLengthLongnames(long_name=nauticalMile,conversion_factor=value6)
+ok 102 - LengthTest/testLengthLongnames(long_name=statuteMile,conversion_factor=value7)
+ok 103 - LengthTest/testLengthLongnames(long_name=ChineseMile,conversion_factor=value8)
+ok 104 - LengthTest/testLengthLongnames(long_name=smoot,conversion_factor=value9)
+ok 105 - LengthTest/testLengthLongnames(long_name=astronomicalUnit,conversion_factor=value10)
+ok 106 - LengthTest/testLengthLongnames(long_name=lightyear,conversion_factor=value11)
+ok 107 - LengthTest/testLengthLongnames(long_name=Parsec,conversion_factor=value12)
+ok 108 - LengthTest/testLengthLongnames(long_name=p__ngstr_m,conversion_factor=value13)
