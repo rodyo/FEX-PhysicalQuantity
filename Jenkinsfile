@@ -44,14 +44,6 @@ pipeline
                             }
                         }
 
-                        // Placeholders:
-                        stage('Test')
-                        {
-                            steps {
-                                echo "not implemented"
-                            }
-                        }
-
                         // When you're ready:                        
                         stage('Test')
                         {
