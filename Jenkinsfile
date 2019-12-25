@@ -20,7 +20,7 @@ pipeline
 
     stages
     {
-        stage('Physical QUantity Toolbox - Build & Test')
+        stage('Physical Quantity Toolbox - Test')
         {
             parallel
             {
@@ -112,21 +112,12 @@ pipeline
             }
         }
 
-        stage('Physical Quantity Toolbox - Package & Deliver')
+        stage('Physical Quantity Toolbox - Deploy')
         {
             agent {label 'MATLAB-linux'}
 
             stages {
-
-                stage('Package') {
-                    when {
-                        expression { params.DEPLOY_TOOLBOX == true}
-                    }
-                    steps {
-                        echo "nothing to do here"
-                    }
-                }
-
+                
                 stage('Deploy') {
                     when {
                         expression { params.DEPLOY_TOOLBOX == true}
