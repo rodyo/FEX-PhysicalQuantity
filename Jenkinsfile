@@ -30,10 +30,9 @@ pipeline
 
                     stages
 					{
-                        stage('Static Analysis') {
-                            // Placeholder
+                        stage('Static Analysis') {                            
                             steps {
-                                echo "(perform static checks)"
+                                echo "(TODO - perform static checks)"
                             }
                         }
                         
@@ -44,8 +43,7 @@ pipeline
                             }
 
                             steps
-                            {
-							    bat 'whoami'								
+                            {							    
                                 bat 'matlab_R2019b \
                                     -softwareopengl \
                                     -sd "test/" \
