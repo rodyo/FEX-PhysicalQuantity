@@ -45,6 +45,8 @@ pipeline
 
                             steps
                             {
+							    bat 'whoami'
+								
                                 bat 'matlab_R2019b \
                                     -softwareopengl \
                                     -sd "test/" \
