@@ -44,12 +44,12 @@ pipeline
                             }
 
                             steps
-                            {							    								
-                                bat 'runas /user:rody \
-								    "matlab_R2019b \
-                                        -softwareopengl \
-                                        -sd ^"test^" \
-                                        -batch ^"jenkins^""'
+                            {
+							    bat 'whoami'								
+                                bat 'matlab_R2019b \
+                                    -softwareopengl \
+                                    -sd "test/" \
+                                    -batch "jenkins"'
 
                                 step([$class: "TapPublisher",
                                       testResults: "test/artifacts/tap_report.tap"])
