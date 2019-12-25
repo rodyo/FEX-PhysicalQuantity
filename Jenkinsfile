@@ -30,21 +30,13 @@ pipeline
 
                     stages
 					{
-                        stage('Static checks') {
+                        stage('Static Analysis') {
                             // Placeholder
                             steps {
                                 echo "(perform static checks)"
                             }
                         }
-
-                        stage('Build') {
-                            // Placeholder
-                            steps {
-                                echo "(build MEX files)"
-                            }
-                        }
-
-                        // When you're ready:                        
+                        
                         stage('Test')
                         {
                             when {
@@ -53,7 +45,7 @@ pipeline
 
                             steps
                             {
-                                sh 'matlab_R2019b \
+                                bat 'matlab_R2019b \
                                     -softwareopengl \
                                     -sd "test/" \
                                     -batch "jenkins"'
@@ -96,7 +88,7 @@ pipeline
                 stage('Windows R2016a') {
                     // Placeholder
                     steps {
-                        echo "(will be done once we get a Windows executor)"
+                        echo "(will be done once we install R2016a on Windows)"
                     }
                 }
 
