@@ -149,7 +149,8 @@ end
 function units = all_units()
     % All M-files in '../framework/units/ define a unit list:
 	fpth = fullfile(fileparts(mfilename('fullpath')),...
-                    '..', 'framework', 'units');        
+                    '..', '..', ...
+                    'PhysicalQuantity', 'framework', 'units');        
     units     = dir(fullfile(fpth,'*.m'));
     [~,units] = cellfun(@fileparts,{units.name}','UniformOutput', false);    
     units = units(~strcmp(units,'get_units'));    

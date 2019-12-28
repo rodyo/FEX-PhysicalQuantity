@@ -72,14 +72,14 @@ function [units,...
     % LEXER    
 
     % Prepare string for easier lexing
-    string_separators   = '/*\s';
+    string_separators = '/*\s';
     sep    = ['['  string_separators ']'];
     notsep = ['[^' string_separators ']'];
     
     str = strtrim(str);
     
-    str = regexprep(str, '\s+per\s+'  , '/', 'ignorecase');
-    str = regexprep(str, '\s+/\s+'    , '/');
+    str = regexprep(str, '\s+per\s+', '/', 'ignorecase');
+    str = regexprep(str, '\s+/\s+'  , '/');
     
     str = regexprep(str, '\s+times\s+', '*', 'ignorecase');
     str = regexprep(str, '\s+*\s+'    , '*');
@@ -139,9 +139,9 @@ function [units,...
     % Validate and convert all unit strings    
     units(num_units)       = DerivedUnitOfMeasurement();
     multipliers(num_units) = SiMultipliersLong.none;
-    
+
     for ii = 1:num_units
-        
+       
         % Current unit to process
         str = remove_leading_nonprintables(unit_strings{ii});
         % (may have been cleared in the inner loop)
@@ -176,13 +176,19 @@ function [units,...
                 len_to_match = numel(to_match); % NOTE: *before* regexptranslate!
                                 
                 % If there is a space in the string to match, we need to
-                % examine the next entry in unit_strings as well:
-                unit_str = str;  
+                % examine the next entry in unit_strings as well:                
+                % TODO: (Rody) ...move out of the loop? 
+                unit_str = str; 
+                               
                 next_str_taken = false;
-                if any(isspace(to_match)) && ii < numel(unit_strings)
-                    next_str = unit_strings{ii+1};
-                    unit_str = [str ' ',...
-                                remove_leading_nonprintables(next_str)];
+                sp = isspace(to_match);
+                num_extra_units = sum(sp);
+                
+                if any(sp) && ii+num_extra_units <= numel(unit_strings)
+                    next_str = cellfun(@remove_leading_nonprintables,...
+                                       unit_strings(ii+1:ii+num_extra_units),...
+                                       'UniformOutput', false);
+                    unit_str = strjoin([str next_str]);
                     next_str_taken = true;
                 end
                 
@@ -203,8 +209,9 @@ function [units,...
                     % If that exhausts the string, we're done
                     if isempty(unit_str)
                         str_processed = true; 
-                        if next_str_taken % (clear so it isn't reprocessed)
-                            unit_strings{ii+1} = []; end
+                        if next_str_taken % (clear so it isn't reprocessed)                            
+                            unit_strings(ii+1:ii+num_extra_units) = {[]}; 
+                        end                        
                         break;
                     end
                     
@@ -250,7 +257,7 @@ function [units,...
     units(inds)       = [];
     multipliers(inds) = [];
     powers(inds)      = [];
-
+    
 end
 
 function str = remove_leading_nonprintables(str)

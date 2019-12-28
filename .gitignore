@@ -1,8 +1,5 @@
-*.mexw64
-*.mexmaci64
-*.mexglx64
-
 *.m~
 *.asv
 
-runner.m
+test/artifact/*
+!test/artifact/.gitkeep

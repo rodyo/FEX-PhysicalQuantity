@@ -6,17 +6,19 @@ classdef InductanceUnits < UnitOfMeasurementType
                                            'system'    ,  SystemOfUnits.metric, ...
                                            'short_name', 'H',...
                                            'long_name' , 'Henry')
-        other_units = get_magnetic_flux_units()
+        other_units = get_inductance_units()
     end    
 end
 
 % Utility funcion provides an easy means to write all the available units
 % in a concise way
-function U = get_magnetic_flux_units()
+function U = get_inductance_units()
     
     %    system symbol      Symbol long       conversion factor (to Henry)
-    S = {SystemOfUnits.cgs  'abH'  'abhenry'  1e-9
-         };
+    S = {%SystemOfUnits.cgs  'abH'  'abhenry'  1e-9  % TODO: (Rody) fails test; it's (rightfully)         
+         };                                          % marked as an incorrect SI multiplier...     
+U = DerivedUnitOfMeasurement('dimensions', InductanceUnits.dimensions);
+return; 
      
     % Now define the actual unit object
     U = DerivedUnitOfMeasurement('dimensions',              repmat({InductanceUnits.dimensions},size(S,1),1),...

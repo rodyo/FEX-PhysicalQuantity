@@ -3,7 +3,7 @@ classdef MagneticFlux < PhysicalQuantityInterface
     properties (Constant)                    
         %                               L M  t  C T I N ii
         dimensions = PhysicalDimension([2 1 -2 -1 0 0 0 0]);        
-        units      = get_units('magnetic_flux')
+        units      = get_units('magnetic_flux_units')
     end 
     
     % Dummy constructor - needed until R2017b
