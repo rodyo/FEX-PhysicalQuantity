@@ -1,3 +1,7 @@
+[![Build Status](http://oldhouse.ddns.net:7575/buildStatus/icon?job=FEX+-+Physical+Quantity%2Fdevelop&subject=develop%20build%20duration%20${duration})](http://oldhouse.ddns.net:7575/job/FEX%20-%20Physical%20Quantity/)
+
+[![Build Status](http://oldhouse.ddns.net:7575/buildStatus/icon?job=FEX+-+Physical+Quantity%2Fmaster&subject=master%20build%20duration%20${duration})](http://oldhouse.ddns.net:7575/job/FEX%20-%20Physical%20Quantity/)
+
 # PhysicalQuantity
 
 Consistent, fully automated, intuitive handling of physical units 
@@ -35,13 +39,13 @@ What if I try to break it?
 
     >> A = Area(L*L*R, 'm^2')
     Error using Area (line 13)
-    Can't create 'Area' (dimensions [L]²) from a quantity with 
-    dimensions [L]³. 
+    Can't create 'Area' (dimensions [L]Â²) from a quantity with 
+    dimensions [L]Â³. 
 
     >> A = Area(L*R, 'm^3')
     Error using Area (line 13)
-    Dimensions implied by the given string ([L]³) are incompatible with 
-    those of an Area ([L]²).
+    Dimensions implied by the given string ([L]Â³) are incompatible with 
+    those of an Area ([L]Â²).
 
     >> tan( Area(L*R, 'm^2') )
     Can't compute the tangent() of an Area.
@@ -118,7 +122,7 @@ To get a list of available units:
       - smoot (smt)
       - statute mile (st.mi)
       - yard (yd)
-      - Ångström (Å)
+      - Ã…ngstrÃ¶m (Ã…)
     
 
 Conversions between compatible units are seamless: 
