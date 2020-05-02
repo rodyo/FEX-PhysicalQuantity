@@ -2,6 +2,10 @@
 
 [![Build Status](http://oldhouse.ddns.net:7575/buildStatus/icon?job=FEX+-+Physical+Quantity%2Fmaster&subject=master%20build%20duration%20${duration})](http://oldhouse.ddns.net:7575/job/FEX%20-%20Physical%20Quantity/)
 
+[![View PhysicalQuantity on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/69125-physicalquantity)
+
+[![Donate to Rody](https://i.stack.imgur.com/bneea.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4M7RMVNMKAXXQ&source=url)
+
 # PhysicalQuantity
 
 Consistent, fully automated, intuitive handling of physical units 
@@ -148,11 +152,4 @@ Operations work as expected:
          2.025219058242187e+02 milliNewtons 
 
 
-
-# Note
-
-This is a work in progress, and in its early stages. Many things will still
-go incorrectly. If you observe something odd, please give me a heads up. 
-Preferably, raise issue on GitHub :) Otherwise, plain ol' email will do: 
-
-oldenhuis@gmail.com
+If you find this work useful, please consider [a donation](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4M7RMVNMKAXXQ&source=url).
